@@ -2,7 +2,7 @@
 
 public class TestPouet {
 //salut
-	//méthode salut
+	//mothode salut
 	
 	public static void main(String[] args){
 		int x = 0;
