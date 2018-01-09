@@ -3,7 +3,7 @@ import java.awt.Color;
 public class Food {
 	int size;
 	Color color;
-	static byte[][] posFood = new byte[64][64];
+	static int[][] posFood = new int[64][64];
 	boolean isEating = false;
 
 	static void createFood (boolean a){
