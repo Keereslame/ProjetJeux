@@ -20,11 +20,7 @@ public class Display {
 	
 	//Dessiner une pomme
 	public void apple(){
-		for(int x = 0; x < 10; x++){
-			for(int y = 0; y < 10; y++){
-				display.drawCircle(posX, posY, f);
-			}
-		}
+		 
 	}
 	
 	//Dessiner un mur
