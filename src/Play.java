@@ -11,6 +11,7 @@ public class Play {
 		while(true){
 			
 				snake.direction();
+				
 		}
 	}
 }

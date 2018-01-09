@@ -11,14 +11,21 @@ public class Snake {
 
 	// Attributs de classe
 	int length;
-	Direction dirSnake = Direction.LEFT;
-	int posx = 32;
-	int posy = 32;
+	Direction dirSnake;
 	int position[][] = new int[64][64];
+	int posx = position.length/2;
+	int posy = position[0].length/2;
+
+	//Constantes pour la fenêtre
+	final static int GRAPHICS_WIDTH = 640;
+	final static int GRAPHICS_HEIGHT = 640;
+
+	// Display surface to draw on
+	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
 
 	// Constructeur
 	public Snake(int length, Direction direction) {
-		new Display();
+
 		this.length = length;
 		this.dirSnake = direction;
 		this.position[posx][posy] = 1;
@@ -38,12 +45,14 @@ public class Snake {
 
 			}
 		}
+		wall(30);
+		apple();
 
 	}
 
 	//Méthode qui lit les flèches
 	public void direction() {
-		Display.display.setKeyManager(new KeyAdapter() {
+		display.setKeyManager(new KeyAdapter() {
 
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -73,45 +82,45 @@ public class Snake {
 
 		while (true) {
 			move(dirSnake);
-			Display.display.clear();
+			display.clear();
 
 
-			for(int i=0;i< Display.GRAPHICS_WIDTH;i+=10){
-				for(int j=0;j < Display.GRAPHICS_HEIGHT; j+=10){
+			for(int i=0;i< GRAPHICS_WIDTH;i+=10){
+				for(int j=0;j < GRAPHICS_HEIGHT; j+=10){
 					if(position[i/10][j/10] == 1){
-						Display.display.setColor(Color.RED);
-						Display.display.drawCircle(i, j, 5);
+						display.setColor(Color.RED);
+						display.drawCircle(i, j, 5);
 					}else if(position[i/10][j/10] > 1){
-						Display.display.setColor(Color.BLACK);
-						Display.display.drawCircle(i, j, 5);
+						display.setColor(Color.BLACK);
+						display.drawCircle(i, j, 5);
 					}else if(position[i/10][j/10] == -1){
-						Display.display.setColor(Color.BLUE);
-						Display.display.drawRect(i, j, 4, 4);
+						display.setColor(Color.BLUE);
+						display.drawRect(i, j, 15, 15);
 					}else if(position[i/10][j/10] == -2){
-						Display.display.setColor(Color.ORANGE);
-						Display.display.drawRect(i, j, 4, 4);
+						display.setColor(Color.ORANGE);
+						display.drawRect(i, j, 30, 30);
 					}
 				}
 			}
 
 
 
-				Display.display.syncGameLogic(10);
+			display.syncGameLogic(10);
 
-				System.out.println(dirSnake);
-				for (int j = 0; j < position.length; j++) {
-					for (int k = 0; k < position[j].length; k++) {
-						System.out.print(position[j][k]);
-					}
-					System.out.println("");
+			System.out.println(dirSnake);
+			for (int j = 0; j < position.length; j++) {
+				for (int k = 0; k < position[j].length; k++) {
+					System.out.print(position[j][k]);
 				}
-			
+				System.out.println("");
+			}
+
 		}
 	}
-	
+
 	//Méthode pour bouger le snake selon la direction
 	public void move(Direction d) {
-		
+
 		switch (d) {
 		case LEFT:
 			for(int i = 0; i < position.length; i++){
@@ -128,7 +137,7 @@ public class Snake {
 					}
 				}
 			}
-		
+
 			break;
 		case RIGHT:
 			for(int i = 0 ; i < position.length; i++){
@@ -140,13 +149,13 @@ public class Snake {
 			}
 			for(int i = 0; i < position.length-1; i++){
 				for(int j = 0; j < position[i].length-1; j++){
-					
+
 					if(position[i][j] == 2){
 						position[i+1][j] = 1;
 					}
 				}
 			}
-			
+
 			break;
 		case UP:
 			for(int i = 0; i < position.length; i++){
@@ -158,7 +167,7 @@ public class Snake {
 			}
 			for(int i = 0; i < position.length-1; i++){
 				for(int j = 0; j < position[i].length-1; j++){
-					
+
 					if(position[i][j] == 2){
 						position[i][j-1] = 1;
 					}
@@ -176,7 +185,7 @@ public class Snake {
 			}
 			for(int i = 0; i < position.length-1; i++){
 				for(int j = 0; j < position[i].length-1; j++){
-					
+
 					if(position[i][j]==2){
 						position[i][j+1] = 1;
 					}
@@ -194,7 +203,30 @@ public class Snake {
 			}
 		}
 	}
+
+	//Création d'obstacle
+	public void wall(int nbObstacles){
+		int nbWall = 0;
+
+		while(nbWall < nbObstacles){
+			int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
+			int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
+			if(position[x][y] == 0){
+				position[x][y] = -2;
+			}
+			nbWall ++;
+		}
+	}
 	
+	//Création de pomme
+	public void apple(){
+		int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
+		int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
+		if(position[x][y] == 0){
+			position[x][y] = -1;
+		}
+	}
+
 	//Méthode si'il y a un échec
 	public void gameover(){
 		System.out.println("PERDU");
