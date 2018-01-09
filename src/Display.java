@@ -12,11 +12,48 @@ public class Display {
 	
 	//
 	Snake snake;
-	Food food;
 	
 	// Create and set the windows up
 	public Display(){
 		display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
+	}
+	
+	//Dessiner une pomme
+	public void apple(){
+		for(int x = 0; x < 10; x++){
+			for(int y = 0; y < 10; y++){
+				display.drawCircle(posX, posY, f);
+			}
+		}
+	}
+	
+	//Dessiner un mur
+	public void wall(){
+		
+	}
+	
+	//Dessiner une tête
+	public void head(){
+		
+	}
+	
+	//Dessiner un corps
+	public void body(){
+		
+	}
+	
+	//Afficher les éléments
+	public void draw(){
+		for(int i = 0; i < snake.position.length; i++){
+			for(int j = 0; j < snake.position[i].length; j++){
+				switch (snake.position[i][j]){
+				case -1:
+					
+					
+
+				}
+			}
+		}
 	}
 }
 	
