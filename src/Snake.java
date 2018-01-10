@@ -49,7 +49,14 @@ public class Snake {
 			}
 		}
 		play = true;
-
+		wall(10);
+		apple();
+		apple();
+		apple();
+		apple();
+		apple();
+		apple();
+		
 		
 		
 
@@ -152,7 +159,7 @@ public class Snake {
 		}
 
 		if(position[headX][headY] == -1){
-			length++;
+			length+=2;
 			position[headX][headY] = 1;
 			position[queuX][queuY] = length;
 		}else if(position[headX][headY] == 0){
@@ -161,12 +168,13 @@ public class Snake {
 		}else{
 			gameover();
 		}
+		System.out.println(length);
 	}
 	
 
 
 	//Creation d'obstacle
-	/*public void wall(int nbObstacles){
+	public void wall(int nbObstacles){
 		int nbWall = 0;
 
 		while(nbWall < nbObstacles){
@@ -177,16 +185,16 @@ public class Snake {
 			}
 			nbWall ++;
 		}
-	}*/
+	}
 	
 	//Creation de pomme
-	/*public void apple(){
+	public void apple(){
 		int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
 		int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
 		if(position[x][y] == 0){
 			position[x][y] = -1;
 		}
-	}*/
+	}
 
 	//Methode si'il y a un echec
 	public void gameover(){
