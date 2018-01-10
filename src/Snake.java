@@ -16,9 +16,12 @@ public class Snake {
 	int posx = position.length/2;
 	int posy = position[0].length/2;
 
-	//Constantes pour la fenêtre
+	//Constantes pour la fenetre
 	final static int GRAPHICS_WIDTH = 640;
 	final static int GRAPHICS_HEIGHT = 640;
+	
+	//Savoir si on est train de jouer ou non
+	boolean play = false;
 
 	// Display surface to draw on
 	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
@@ -45,12 +48,17 @@ public class Snake {
 
 			}
 		}
+		play = true;
 		wall(30);
 		apple();
+		
+		while(play){
+			direction();
+		}
 
 	}
 
-	//Méthode qui lit les flèches
+	//Methode qui lit les fleches
 	public void direction() {
 		display.setKeyManager(new KeyAdapter() {
 
@@ -103,22 +111,20 @@ public class Snake {
 				}
 			}
 
-
-
 			display.syncGameLogic(10);
 
-			System.out.println(dirSnake);
-			for (int j = 0; j < position.length; j++) {
-				for (int k = 0; k < position[j].length; k++) {
-					System.out.print(position[j][k]);
-				}
-				System.out.println("");
-			}
+//			System.out.println(dirSnake);
+//			for (int j = 0; j < position.length; j++) {
+//				for (int k = 0; k < position[j].length; k++) {
+//					System.out.print(position[j][k]);
+//				}
+//				System.out.println("");
+//			}
 
 		}
 	}
 
-	//Méthode pour bouger le snake selon la direction
+	//Methode pour bouger le snake selon la direction
 	public void move(Direction d) {
 
 		switch (d) {
@@ -204,7 +210,7 @@ public class Snake {
 		}
 	}
 
-	//Création d'obstacle
+	//Creation d'obstacle
 	public void wall(int nbObstacles){
 		int nbWall = 0;
 
@@ -218,7 +224,7 @@ public class Snake {
 		}
 	}
 	
-	//Création de pomme
+	//Creation de pomme
 	public void apple(){
 		int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
 		int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
@@ -227,10 +233,10 @@ public class Snake {
 		}
 	}
 
-	//Méthode si'il y a un échec
+	//Methode si'il y a un echec
 	public void gameover(){
-		System.out.println("PERDU");
-		System.exit(1);
+		display.clear();
+		
 	}
 
 }

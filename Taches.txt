@@ -1,0 +1,10 @@
+Question projet snake:
+- si on veut faire différent level, peut-on créer une classe par level?
+- pour mettre des images, il faut utiliser fungraphics?
+- peut-on utiliser JFrame et ActionListener?
+
+Encore à faire:
+- Gestion des conflits
+- Manger
+- Différents level (modification du fps, augmentation des blocs)
+- Menu démarrer et play again
