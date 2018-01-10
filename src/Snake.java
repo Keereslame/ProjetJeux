@@ -61,33 +61,16 @@ public class Snake {
 
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					if(dirSnake != Direction.LEFT)
-						dirSnake = Direction.RIGHT;
-					else{
-						gameover();
-						play=false;
-					}
+					dirSnake = Direction.RIGHT;
+					
 				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					if(dirSnake != Direction.RIGHT)
-						dirSnake = Direction.LEFT;
-					else{
-						gameover();
-						play=false;
-					}
+					dirSnake = Direction.LEFT;
+					
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					if(dirSnake != Direction.DOWN)
-						dirSnake = Direction.UP;
-					else{
-						gameover();
-						play=false;
-					}
+					dirSnake = Direction.UP;
+				
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					if(dirSnake != Direction.UP)
-						dirSnake = Direction.DOWN;
-					else{
-						gameover();
-						play=false;
-					}
+					dirSnake = Direction.DOWN;
 				}
 			}
 
@@ -98,8 +81,6 @@ public class Snake {
 			display.clear();
 
 			move(dirSnake);
-			conflit();
-
 			for(int i=0;i< GRAPHICS_WIDTH;i+=10){
 				for(int j=0;j < GRAPHICS_HEIGHT; j+=10){
 					if(position[i/10][j/10] == 1){
@@ -117,14 +98,6 @@ public class Snake {
 					}
 				}
 			}
-		
-			System.out.println(dirSnake);
-			for (int j = 0; j < position.length; j++) {
-				for (int k = 0; k < position[j].length; k++) {
-					System.out.print(position[j][k]);
-				}
-				System.out.println("");
-			}
 			
 			display.syncGameLogic(10);
 
@@ -133,105 +106,57 @@ public class Snake {
 
 	//Methode pour bouger le snake selon la direction
 	public void move(Direction d) {
+		int headX = 0;
+		int headY = 0;
+		int queuX = 0;
+		int queuY = 0;
+		
+		for(int i = 0; i < position.length; i++){
+			for(int j = 0; j < position[i].length; j++){
+				if(position[i][j] == 1){
+					headX = i;
+					headY = j;
+				}
+				if(position[i][j] == length){
+					queuX = i;
+					queuY = j;
+					position[i][j] = 0;
+				}
+				if(position[i][j] > 0){
+					position[i][j]++;
+				}
+			}
+		}
+		length--;
 
 		switch (d) {
 		case LEFT:
-			for(int i = 0; i < position.length; i++){
-				for(int j = 0; j < position[i].length; j++){
-					if(position[i][j] > 0){
-						position [i][j] += 1;
-					}
-				}
-			}
-			for(int i = 0; i < position.length-1; i++){
-				for(int j = 0; j < position[i].length-1; j++){
-					if(position[i][j] == 2){
-						position[i-1][j] = 1;
-					}
-				}
-			}
-
+			headX --;
 			break;
 		case RIGHT:
-			for(int i = 0 ; i < position.length; i++){
-				for(int j = 0; j < position[i].length; j++){
-					if(position[i][j] > 0){
-						position [i][j] += 1;
-					}
-				}
-			}
-			for(int i = 0; i < position.length-1; i++){
-				for(int j = 0; j < position[i].length-1; j++){
-
-					if(position[i][j] == 2){
-						position[i+1][j] = 1;
-					}
-				}
-			}
-
+			headX ++;
 			break;
 		case UP:
-			for(int i = 0; i < position.length; i++){
-				for(int j = 0;j < position[i].length; j++){
-					if(position[i][j] > 0){
-						position [i][j] += 1;
-					}
-				}
-			}
-			for(int i = 0; i < position.length-1; i++){
-				for(int j = 0; j < position[i].length-1; j++){
-
-					if(position[i][j] == 2){
-						position[i][j-1] = 1;
-					}
-				}
-			}
-
+			headY --;
 			break;
 		case DOWN:
-			for(int i = 0; i < position.length; i++){
-				for(int j = 0; j < position[i].length; j++){
-					if(position[i][j] > 0){
-						position [i][j] += 1;
-					}
-				}
-			}
-			for(int i = 0; i < position.length-1; i++){
-				for(int j = 0; j < position[i].length-1; j++){
-
-					if(position[i][j]==2){
-						position[i][j+1] = 1;
-					}
-				}
-			}
-
-			break;
-		default:
+			headY ++;
 			break;
 		}
-		for(int i=0;i<position.length;i++){
-			for(int j=0;j<position[i].length;j++){
-				if (position[i][j]>length)
-					position[i][j]=0;
-			}
+
+		if(position[headX][headY] == -1){
+			length++;
+			position[headX][headY] = 1;
+			position[queuX][queuY] = length;
+		}else if(position[headX][headY] == 0){
+			position[headX][headY] = 1;	
+			length++;
+		}else{
+			gameover();
 		}
 	}
 	
-	public void conflit(){
-		for (int i=1; i < position.length-1; i++){
-			for(int j = 1; j < position[i].length-1; j++){
-				if(position[i][j] == 1 && position[i][j-1]>1 && dirSnake == Direction.LEFT){
-					gameover();
-				}else if(position[i][j] == 1 && position[i][j+1]>1 && dirSnake == Direction.RIGHT){
-					gameover();
-				}else if(position[i][j] == 1 && position[i-1][j]>1 && dirSnake == Direction.UP){
-					gameover();
-				}else if(position[i][j] == 1 && position[i+1][j]>1 && dirSnake == Direction.DOWN){
-					gameover();
-				}
-			}
-		}
-	}
+
 
 	//Creation d'obstacle
 	/*public void wall(int nbObstacles){
