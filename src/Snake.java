@@ -49,12 +49,9 @@ public class Snake {
 			}
 		}
 		play = true;
-		wall(30);
-		apple();
+
 		
-		while(play){
-			direction();
-		}
+		
 
 	}
 
@@ -66,23 +63,31 @@ public class Snake {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					if(dirSnake != Direction.LEFT)
 						dirSnake = Direction.RIGHT;
-					else
+					else{
 						gameover();
+						play=false;
+					}
 				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					if(dirSnake != Direction.RIGHT)
 						dirSnake = Direction.LEFT;
-					else
+					else{
 						gameover();
+						play=false;
+					}
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 					if(dirSnake != Direction.DOWN)
 						dirSnake = Direction.UP;
-					else
+					else{
 						gameover();
+						play=false;
+					}
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					if(dirSnake != Direction.UP)
 						dirSnake = Direction.DOWN;
-					else
+					else{
 						gameover();
+						play=false;
+					}
 				}
 			}
 
@@ -90,6 +95,7 @@ public class Snake {
 
 		while (true) {
 			move(dirSnake);
+			
 			display.clear();
 
 
@@ -113,13 +119,14 @@ public class Snake {
 
 			display.syncGameLogic(10);
 
-//			System.out.println(dirSnake);
-//			for (int j = 0; j < position.length; j++) {
-//				for (int k = 0; k < position[j].length; k++) {
-//					System.out.print(position[j][k]);
-//				}
-//				System.out.println("");
-//			}
+			System.out.println(dirSnake);
+			for (int j = 0; j < position.length; j++) {
+				for (int k = 0; k < position[j].length; k++) {
+					System.out.print(position[j][k]);
+				}
+				System.out.println("");
+			}
+			conflit();
 
 		}
 	}
@@ -209,9 +216,25 @@ public class Snake {
 			}
 		}
 	}
+	
+	public void conflit(){
+		for (int i=0; i<position.length; i++){
+			for(int j = 0; j< position[i]. length; j++){
+				if(dirSnake == Direction.UP && position[i][0] == 1){
+					gameover();
+				}else if(dirSnake == Direction.DOWN && position[i][position.length-1] == 1){
+					gameover();
+				}else if(dirSnake == Direction.LEFT && position[0][j] == 1){
+					gameover();
+				}else if(dirSnake == Direction.RIGHT && position[position.length-1][j] == 1){
+					gameover();
+				}
+			}
+		}
+	}
 
 	//Creation d'obstacle
-	public void wall(int nbObstacles){
+	/*public void wall(int nbObstacles){
 		int nbWall = 0;
 
 		while(nbWall < nbObstacles){
@@ -222,20 +245,21 @@ public class Snake {
 			}
 			nbWall ++;
 		}
-	}
+	}*/
 	
 	//Creation de pomme
-	public void apple(){
+	/*public void apple(){
 		int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
 		int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
 		if(position[x][y] == 0){
 			position[x][y] = -1;
 		}
-	}
+	}*/
 
 	//Methode si'il y a un echec
 	public void gameover(){
 		display.clear();
+		System.exit(1);
 		play = false;
 		
 	}
