@@ -152,12 +152,15 @@ public class Snake {
 		}
 		
 		if(headX == position.length){
-			headX = 1;
-		
+			headX = 0;
 		}else if(headY == position.length){
-			headY = 1;
+			headY = 0;
+		}else if(headX == 0){
+			headX = position.length-1;
+		}else if(headY == 0){
+			headY = position.length-1;
 		}
-
+		
 		if(position[headX][headY] == -1){
 			length+=2;
 			position[headX][headY] = 1;
@@ -168,7 +171,7 @@ public class Snake {
 		}else{
 			gameover();
 		}
-		System.out.println(length);
+		
 	}
 	
 
