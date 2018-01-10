@@ -236,6 +236,7 @@ public class Snake {
 	//Methode si'il y a un echec
 	public void gameover(){
 		display.clear();
+		play = false;
 		
 	}
 
