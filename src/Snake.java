@@ -94,10 +94,11 @@ public class Snake {
 		});
 
 		while (true) {
-			move(dirSnake);
 			
 			display.clear();
 
+			move(dirSnake);
+			conflit();
 
 			for(int i=0;i< GRAPHICS_WIDTH;i+=10){
 				for(int j=0;j < GRAPHICS_HEIGHT; j+=10){
@@ -116,9 +117,7 @@ public class Snake {
 					}
 				}
 			}
-
-			display.syncGameLogic(10);
-
+		
 			System.out.println(dirSnake);
 			for (int j = 0; j < position.length; j++) {
 				for (int k = 0; k < position[j].length; k++) {
@@ -126,7 +125,8 @@ public class Snake {
 				}
 				System.out.println("");
 			}
-			conflit();
+			
+			display.syncGameLogic(10);
 
 		}
 	}
@@ -218,15 +218,15 @@ public class Snake {
 	}
 	
 	public void conflit(){
-		for (int i=0; i<position.length; i++){
-			for(int j = 0; j< position[i]. length; j++){
-				if(dirSnake == Direction.UP && position[i][0] == 1){
+		for (int i=1; i < position.length-1; i++){
+			for(int j = 1; j < position[i].length-1; j++){
+				if(position[i][j] == 1 && position[i][j-1]>1 && dirSnake == Direction.LEFT){
 					gameover();
-				}else if(dirSnake == Direction.DOWN && position[i][position.length-1] == 1){
+				}else if(position[i][j] == 1 && position[i][j+1]>1 && dirSnake == Direction.RIGHT){
 					gameover();
-				}else if(dirSnake == Direction.LEFT && position[0][j] == 1){
+				}else if(position[i][j] == 1 && position[i-1][j]>1 && dirSnake == Direction.UP){
 					gameover();
-				}else if(dirSnake == Direction.RIGHT && position[position.length-1][j] == 1){
+				}else if(position[i][j] == 1 && position[i+1][j]>1 && dirSnake == Direction.DOWN){
 					gameover();
 				}
 			}
