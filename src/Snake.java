@@ -143,6 +143,13 @@ public class Snake {
 			headY ++;
 			break;
 		}
+		
+		if(headX == position.length){
+			headX = 1;
+		
+		}else if(headY == position.length){
+			headY = 1;
+		}
 
 		if(position[headX][headY] == -1){
 			length++;
