@@ -92,16 +92,16 @@ public class Snake {
 				for(int j=0;j < GRAPHICS_HEIGHT; j+=10){
 					if(position[i/10][j/10] == 1){
 						display.setColor(Color.RED);
-						display.drawCircle(i, j, 5);
+						display.drawCircle(i, j, 10);
 					}else if(position[i/10][j/10] > 1){
 						display.setColor(Color.BLACK);
-						display.drawCircle(i, j, 5);
+						display.drawCircle(i, j, 10);
 					}else if(position[i/10][j/10] == -1){
 						display.setColor(Color.BLUE);
-						display.drawRect(i, j, 15, 15);
+						display.drawRect(i, j, 10, 10);
 					}else if(position[i/10][j/10] == -2){
 						display.setColor(Color.ORANGE);
-						display.drawRect(i, j, 30, 30);
+						display.drawRect(i, j, 10, 10);
 					}
 				}
 			}
@@ -181,10 +181,22 @@ public class Snake {
 		int nbWall = 0;
 
 		while(nbWall < nbObstacles){
-			int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
-			int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
-			if(position[x][y] == 0){
-				position[x][y] = -2;
+			boolean wallFlat=false;
+			boolean wallStraight=false;
+					if(Math.random()<0.5){
+						wallFlat=true;
+					}else{wallStraight=true;}
+			int x = (int) (Math.random()*position.length);
+			int y = (int) (Math.random()*position.length);
+			for(int i=0;i<5;i++){
+				if(wallStraight){
+			if(position[x+i][y] == 0){
+				position[x+i][y] = -2;
+			}}
+				if(wallFlat){
+					if(position[x][y+i] == 0){
+						position[x][y+i] = -2;
+					}}
 			}
 			nbWall ++;
 		}
