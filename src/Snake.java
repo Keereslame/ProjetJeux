@@ -13,14 +13,14 @@ public class Snake {
 	int length;
 	Direction dirSnake;
 	int position[][] = new int[64][64];
-	int posx = position.length/2;
-	int posy = position[0].length/2;
+	int posx = position.length / 2;
+	int posy = position[0].length / 2;
 
-	//Constantes pour la fenetre
+	// Constantes pour la fenetre
 	final static int GRAPHICS_WIDTH = 640;
 	final static int GRAPHICS_HEIGHT = 640;
-	
-	//Savoir si on est train de jouer ou non
+
+	// Savoir si on est train de jouer ou non
 	boolean play = false;
 
 	// Display surface to draw on
@@ -35,16 +35,16 @@ public class Snake {
 		for (int i = 2; i <= length; i++) {
 
 			if (dirSnake == Direction.LEFT) {
-				position[posx+(i-1)][posy] = i;
+				position[posx + (i - 1)][posy] = i;
 
 			} else if (dirSnake == Direction.DOWN) {
-				position[posx][posy-(i-1)] = i;
+				position[posx][posy - (i - 1)] = i;
 
 			} else if (dirSnake == Direction.RIGHT) {
-				position[posx-(i-1)][posy ] = i;
+				position[posx - (i - 1)][posy] = i;
 
 			} else {
-				position[posx][posy + (i-1)] = i;
+				position[posx][posy + (i - 1)] = i;
 
 			}
 		}
@@ -56,26 +56,23 @@ public class Snake {
 		apple();
 		apple();
 		apple();
-		
-		
-		
 
 	}
 
-	//Methode qui lit les fleches
+	// Methode qui lit les fleches
 	public void direction() {
 		display.setKeyManager(new KeyAdapter() {
 
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					dirSnake = Direction.RIGHT;
-					
+
 				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					dirSnake = Direction.LEFT;
-					
+
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 					dirSnake = Direction.UP;
-				
+
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					dirSnake = Direction.DOWN;
 				}
@@ -84,52 +81,52 @@ public class Snake {
 		});
 
 		while (true) {
-			
+
 			display.clear();
 
 			move(dirSnake);
-			for(int i=0;i< GRAPHICS_WIDTH;i+=10){
-				for(int j=0;j < GRAPHICS_HEIGHT; j+=10){
-					if(position[i/10][j/10] == 1){
+			for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
+				for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
+					if (position[i / 10][j / 10] == 1) {
 						display.setColor(Color.RED);
 						display.drawCircle(i, j, 10);
-					}else if(position[i/10][j/10] > 1){
+					} else if (position[i / 10][j / 10] > 1) {
 						display.setColor(Color.BLACK);
 						display.drawCircle(i, j, 10);
-					}else if(position[i/10][j/10] == -1){
+					} else if (position[i / 10][j / 10] == -1) {
 						display.setColor(Color.BLUE);
 						display.drawRect(i, j, 10, 10);
-					}else if(position[i/10][j/10] == -2){
+					} else if (position[i / 10][j / 10] == -2) {
 						display.setColor(Color.ORANGE);
 						display.drawRect(i, j, 10, 10);
 					}
 				}
 			}
-			
+
 			display.syncGameLogic(10);
 
 		}
 	}
 
-	//Methode pour bouger le snake selon la direction
+	// Methode pour bouger le snake selon la direction
 	public void move(Direction d) {
 		int headX = 0;
 		int headY = 0;
 		int queuX = 0;
 		int queuY = 0;
-		
-		for(int i = 0; i < position.length; i++){
-			for(int j = 0; j < position[i].length; j++){
-				if(position[i][j] == 1){
+
+		for (int i = 0; i < position.length; i++) {
+			for (int j = 0; j < position[i].length; j++) {
+				if (position[i][j] == 1) {
 					headX = i;
 					headY = j;
 				}
-				if(position[i][j] == length){
+				if (position[i][j] == length) {
 					queuX = i;
 					queuY = j;
 					position[i][j] = 0;
 				}
-				if(position[i][j] > 0){
+				if (position[i][j] > 0) {
 					position[i][j]++;
 				}
 			}
@@ -138,85 +135,88 @@ public class Snake {
 
 		switch (d) {
 		case LEFT:
-			headX --;
+			headX--;
 			break;
 		case RIGHT:
-			headX ++;
+			headX++;
 			break;
 		case UP:
-			headY --;
+			headY--;
 			break;
 		case DOWN:
-			headY ++;
+			headY++;
 			break;
 		}
-		
-		if(headX == position.length){
+
+		if (headX == position.length) {
 			headX = 0;
-		}else if(headY == position.length){
+		} else if (headY == position.length) {
 			headY = 0;
-		}else if(headX == 0){
-			headX = position.length-1;
-		}else if(headY == 0){
-			headY = position.length-1;
+		} else if (headX == 0) {
+			headX = position.length - 1;
+		} else if (headY == 0) {
+			headY = position.length - 1;
 		}
-		
-		if(position[headX][headY] == -1){
-			length+=2;
+
+		if (position[headX][headY] == -1) {
+			length += 2;
 			position[headX][headY] = 1;
 			position[queuX][queuY] = length;
-		}else if(position[headX][headY] == 0){
-			position[headX][headY] = 1;	
+		} else if (position[headX][headY] == 0) {
+			position[headX][headY] = 1;
 			length++;
-		}else{
+		} else {
 			gameover();
 		}
-		
+
 	}
-	
 
-
-	//Creation d'obstacle
-	public void wall(int nbObstacles){
+	// Creation d'obstacle
+	public void wall(int nbObstacles) {
 		int nbWall = 0;
 
-		while(nbWall < nbObstacles){
-			boolean wallFlat=false;
-			boolean wallStraight=false;
-					if(Math.random()<0.5){
-						wallFlat=true;
-					}else{wallStraight=true;}
-			int x = (int) (Math.random()*position.length);
-			int y = (int) (Math.random()*position.length);
-			for(int i=0;i<5;i++){
-				if(wallStraight){
-			if(position[x+i][y] == 0){
-				position[x+i][y] = -2;
-			}}
-				if(wallFlat){
-					if(position[x][y+i] == 0){
-						position[x][y+i] = -2;
-					}}
+		while (nbWall < nbObstacles) {
+			boolean wallFlat = false;
+			boolean wallStraight = false;
+			if (Math.random() < 0.5) {
+				wallFlat = true;
+			} else {
+				wallStraight = true;
 			}
-			nbWall ++;
+			int x = (int) (Math.random() * position.length);
+			int y = (int) (Math.random() * position.length);
+			for (int i = 0; i < 5; i++) {
+				if (wallStraight) {
+					if (position[x + i][y] == 0) {
+						position[x + i][y] = -2;
+					}
+
+				}
+				if (wallFlat) {
+					if (position[x][y + i] == 0) {
+						position[x][y + i] = -2;
+					}
+				}
+			}
+			nbWall++;
 		}
 	}
-	
-	//Creation de pomme
-	public void apple(){
-		int x = (int) (Math.random()*GRAPHICS_WIDTH/10);
-		int y = (int) (Math.random()*GRAPHICS_HEIGHT/10);
-		if(position[x][y] == 0){
+
+	// Creation de pomme
+	public void apple() {
+		int x = (int) (Math.random() * GRAPHICS_WIDTH / 10);
+		int y = (int) (Math.random() * GRAPHICS_HEIGHT / 10);
+		if (position[x][y] == 0) {
 			position[x][y] = -1;
 		}
 	}
 
-	//Methode s'il y a un echec
-	public void gameover(){
+	// Methode s'il y a un echec
+	public void gameover() {
 		display.clear();
 		System.exit(1);
 		play = false;
-		
+
 	}
 
 }
