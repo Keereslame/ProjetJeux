@@ -89,8 +89,8 @@ public class Snake {
 			
 			synchronized(display.frontBuffer){
 				display.clear();
-				display.drawString(20, 20, chrono.getDureeTxt());
-				System.out.println(chrono.getDureeTxt());
+				display.drawString(20, 20,chrono.timeToHMS(System.currentTimeMillis()));
+//				System.out.println(chrono.getDureeTxt());
 
 				move(dirSnake);
 				for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
