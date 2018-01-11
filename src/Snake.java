@@ -83,38 +83,32 @@ public class Snake {
 
 		while (true) {
 			
-			display.clear();
-			display.drawTransformedPicture(0, 0, 0.0, 3.0, new GraphicsBitmap("/Pictures/background.png"));
+			synchronized(display.frontBuffer){
+				display.clear();
 
-			move(dirSnake);
-			for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
-				for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
-					if (position[i / 10][j / 10] == 1) {
-						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/red.png"));
-						//display.setColor(Color.RED);
-						//display.drawCircle(i, j, 10);
-					} else if (position[i / 10][j / 10] > 1) {
-						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/grey_clair.png"));
-						//display.setColor(Color.RED);
-						//display.drawCircle(i, j, 10);
-					} else if (position[i / 10][j / 10] == -1) {
-						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/cherry.png"));
-//						display.setColor(Color.BLUE);
-//						display.drawRect(i, j, 10, 10);
-					} else if (position[i / 10][j / 10] == -2) {
-						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/scifiEnvironment_19.png"));
-//						display.setColor(Color.ORANGE);
-//						display.drawRect(i, j, 10, 10);
+				move(dirSnake);
+				for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
+					for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
+
+						if (position[i / 10][j / 10] == 1) {
+							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/Colored/red.png"));
+						} else if (position[i / 10][j / 10] > 1) {
+							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/Colored/grey_clair.png"));
+						} else if (position[i / 10][j / 10] == -1) {
+							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/cherry.png"));
+						} else if (position[i / 10][j / 10] == -2) {
+							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/scifiEnvironment_19.png"));
+						}
 					}
 				}
 			}
 
-			display.syncGameLogic(10);
+			display.syncGameLogic(100);
 
 		}
 	}
 
-	// Methode pour bouger le snake selon la direction
+	// Methode pour le mouvement du snake
 	public void move(Direction d) {
 		int headX = 0;
 		int headY = 0;
