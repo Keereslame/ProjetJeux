@@ -20,8 +20,6 @@ public class Snake {
 	// Constantes pour la fenetre
 	final static int GRAPHICS_WIDTH = 640;
 	final static int GRAPHICS_HEIGHT = 640;
-	
-	Chrono chrono = new Chrono();
 
 	// Savoir si on est train de jouer ou non
 	boolean play = false;
@@ -52,8 +50,7 @@ public class Snake {
 			}
 		}
 		play = true;
-		chrono.start();
-		
+				
 		wall(10, 5);
 		apple();
 		apple();
@@ -89,8 +86,7 @@ public class Snake {
 			
 			synchronized(display.frontBuffer){
 				display.clear();
-				display.drawString(20, 20,chrono.timeToHMS(System.currentTimeMillis()));
-//				System.out.println(chrono.getDureeTxt());
+				display.drawString(20, 20, "Timer: ");
 
 				move(dirSnake);
 				for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
@@ -221,7 +217,6 @@ public class Snake {
 	public void gameover() {
 		display.clear();
 		play = false;
-		chrono.stop();
 
 	}
 
