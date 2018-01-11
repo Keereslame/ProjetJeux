@@ -1,4 +1,5 @@
 import hevs.graphics.FunGraphics;
+import hevs.graphics.utils.GraphicsBitmap;
 
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
@@ -25,7 +26,7 @@ public class Snake {
 
 	// Display surface to draw on
 	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
-
+	
 	// Constructeur
 	public Snake(int length, Direction direction) {
 
@@ -49,7 +50,7 @@ public class Snake {
 			}
 		}
 		play = true;
-		wall(10);
+		wall(10, 5);
 		apple();
 		apple();
 		apple();
@@ -81,24 +82,29 @@ public class Snake {
 		});
 
 		while (true) {
-
+			
 			display.clear();
+			display.drawTransformedPicture(0, 0, 0.0, 3.0, new GraphicsBitmap("/Pictures/background.png"));
 
 			move(dirSnake);
 			for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
 				for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
 					if (position[i / 10][j / 10] == 1) {
-						display.setColor(Color.RED);
-						display.drawCircle(i, j, 10);
+						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/red.png"));
+						//display.setColor(Color.RED);
+						//display.drawCircle(i, j, 10);
 					} else if (position[i / 10][j / 10] > 1) {
-						display.setColor(Color.BLACK);
-						display.drawCircle(i, j, 10);
+						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/grey_clair.png"));
+						//display.setColor(Color.RED);
+						//display.drawCircle(i, j, 10);
 					} else if (position[i / 10][j / 10] == -1) {
-						display.setColor(Color.BLUE);
-						display.drawRect(i, j, 10, 10);
+						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/cherry.png"));
+//						display.setColor(Color.BLUE);
+//						display.drawRect(i, j, 10, 10);
 					} else if (position[i / 10][j / 10] == -2) {
-						display.setColor(Color.ORANGE);
-						display.drawRect(i, j, 10, 10);
+						display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/scifiEnvironment_19.png"));
+//						display.setColor(Color.ORANGE);
+//						display.drawRect(i, j, 10, 10);
 					}
 				}
 			}
@@ -172,7 +178,7 @@ public class Snake {
 	}
 
 	// Creation d'obstacle
-	public void wall(int nbObstacles) {
+	public void wall(int nbObstacles, int wallLength) {
 		int nbWall = 0;
 
 		while (nbWall < nbObstacles) {
@@ -185,14 +191,14 @@ public class Snake {
 			}
 			int x = (int) (Math.random() * position.length);
 			int y = (int) (Math.random() * position.length);
-			for (int i = 0; i < 5; i++) {
-				if (wallStraight) {
+			for (int i = 0; i < wallLength; i++) {
+				if (wallStraight && x < position.length-wallLength) {
 					if (position[x + i][y] == 0) {
 						position[x + i][y] = -2;
 					}
 
 				}
-				if (wallFlat) {
+				if (wallFlat && y < position.length-wallLength) {
 					if (position[x][y + i] == 0) {
 						position[x][y + i] = -2;
 					}
