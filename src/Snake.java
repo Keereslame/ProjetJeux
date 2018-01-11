@@ -204,8 +204,8 @@ public class Snake {
 
 	// Creation de pomme
 	public void apple() {
-		int x = (int) (Math.random() * GRAPHICS_WIDTH / 10);
-		int y = (int) (Math.random() * GRAPHICS_HEIGHT / 10);
+		int x = (int) (Math.random() * position.length);
+		int y = (int) (Math.random() * position.length);
 		if (position[x][y] == 0) {
 			position[x][y] = -1;
 		}
