@@ -91,19 +91,19 @@ public class Snake {
 					for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
 
 						if (position[i / 10][j / 10] == 1) {
-							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/Colored/red.png"));
+							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/red.png"));
 						} else if (position[i / 10][j / 10] > 1) {
-							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/Colored/grey_clair.png"));
+							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/grey_clair.png"));
 						} else if (position[i / 10][j / 10] == -1) {
-							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/cherry.png"));
+							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/cherry.png"));
 						} else if (position[i / 10][j / 10] == -2) {
-							display.drawTransformedPicture(i, j, 0.0, 1, new GraphicsBitmap("/Pictures/scifiEnvironment_19.png"));
+							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/scifiEnvironment_19.png"));
 						}
 					}
 				}
 			}
 
-			display.syncGameLogic(100);
+			display.syncGameLogic(7);
 
 		}
 	}
