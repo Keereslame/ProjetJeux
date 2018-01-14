@@ -13,7 +13,7 @@ public class Snake {
 	// Attributs de classe
 	int length;
 	Direction dirSnake;
-	int position[][] = new int[64][64];
+	int position[][] = new int[Level1.GRAPHICS_WIDTH/10][Level1.GRAPHICS_HEIGHT/10];
 	int posx = position.length / 2;
 	int posy = position[0].length / 2;
 	GraphicsBitmap head = new GraphicsBitmap("/Pictures/Colored/red.png");
@@ -23,15 +23,12 @@ public class Snake {
 	int nbApple = 0;
 	int score = 0 ;
 
-	// Constantes pour la fenetre
-	final static int GRAPHICS_WIDTH = 640;
-	final static int GRAPHICS_HEIGHT = 640;
+	
 
 	// Savoir si on est train de jouer ou non
 	boolean play = false;
 
-	// Création de la fenêtre de jeu
-	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
+	
 	
 	// Constructeur
 	public Snake(int length, Direction direction) {
@@ -65,33 +62,33 @@ public class Snake {
 	//methode d'affichage
 	public void screen(){
 		
-			synchronized(display.frontBuffer){
-				display.clear();
-				display.drawString(20, 20, "Timer: ");
+			synchronized(Level1.display.frontBuffer){
+				Level1.display.clear();
+				Level1.display.drawString(20, 20, "Timer: ");
 
-				for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
-					for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
+				for (int i = 0; i < Level1.GRAPHICS_WIDTH; i += 10) {
+					for (int j = 0; j < Level1.GRAPHICS_HEIGHT; j += 10) {
 
 						if (position[i / 10][j / 10] == 1) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, head);
+							Level1.display.drawTransformedPicture(i, j, 0.0, 0.25, head);
 						} else if (position[i / 10][j / 10] > 1) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, body);
+							Level1.display.drawTransformedPicture(i, j, 0.0, 0.25, body);
 						} else if (position[i / 10][j / 10] == -1) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, apple);
+							Level1.display.drawTransformedPicture(i, j, 0.0, 0.25, apple);
 						} else if (position[i / 10][j / 10] == -2) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, rock);
+							Level1.display.drawTransformedPicture(i, j, 0.0, 0.25, rock);
 						}
 					}
 				}
 			}
 
-			display.syncGameLogic(10);
+			Level1.display.syncGameLogic(10);
 
 		}	
 
 	// Methode qui lit les fleches
 	public void direction() {
-		display.setKeyManager(new KeyAdapter() {
+		Level1.display.setKeyManager(new KeyAdapter() {
 
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -220,15 +217,15 @@ public class Snake {
 	// Methode s'il y a un echec
 	public void gameover() {
 		play = false;
-		display.clear(Color.WHITE);
-		display.drawString(100, 200, "Sorry, you lose!", Color.RED, 50);
-		display.drawString(200, 500, "Your score is : "+ score, Color.BLUE, 50);
+		Level1.display.clear(Color.WHITE);
+		Level1.display.drawString(Level1.GRAPHICS_WIDTH/3, Level1.GRAPHICS_HEIGHT/3, "Sorry, you lose!", Color.RED, 50);
+		Level1.display.drawString(200, 500, "Your score is : "+ score, Color.BLUE, 50);
 		
 
 	}
 	
 	public void play(){
-		
+		wall(Level1.nbWall, Level1.tailleWall);
 		while(play){
 			direction();
 			move(dirSnake);
