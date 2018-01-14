@@ -16,6 +16,12 @@ public class Snake {
 	int position[][] = new int[64][64];
 	int posx = position.length / 2;
 	int posy = position[0].length / 2;
+	GraphicsBitmap head = new GraphicsBitmap("/Pictures/Colored/red.png");
+	GraphicsBitmap body = new GraphicsBitmap("/Pictures/Colored/grey_clair.png");
+	GraphicsBitmap apple = new GraphicsBitmap("/Pictures/cherry.png");
+	GraphicsBitmap rock = new GraphicsBitmap("/Pictures/scifiEnvironment_19.png");
+	int nbApple = 0;
+	int score = 0 ;
 
 	// Constantes pour la fenetre
 	final static int GRAPHICS_WIDTH = 640;
@@ -24,7 +30,7 @@ public class Snake {
 	// Savoir si on est train de jouer ou non
 	boolean play = false;
 
-	// Display surface to draw on
+	// Création de la fenêtre de jeu
 	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
 	
 	// Constructeur
@@ -50,16 +56,38 @@ public class Snake {
 			}
 		}
 		play = true;
-				
-		wall(10, 5);
 		apple();
-		apple();
-		apple();
-		apple();
-		apple();
-		apple();
+		
+		
 
 	}
+	
+	//methode d'affichage
+	public void screen(){
+		
+			synchronized(display.frontBuffer){
+				display.clear();
+				display.drawString(20, 20, "Timer: ");
+
+				for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
+					for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
+
+						if (position[i / 10][j / 10] == 1) {
+							display.drawTransformedPicture(i, j, 0.0, 0.25, head);
+						} else if (position[i / 10][j / 10] > 1) {
+							display.drawTransformedPicture(i, j, 0.0, 0.25, body);
+						} else if (position[i / 10][j / 10] == -1) {
+							display.drawTransformedPicture(i, j, 0.0, 0.25, apple);
+						} else if (position[i / 10][j / 10] == -2) {
+							display.drawTransformedPicture(i, j, 0.0, 0.25, rock);
+						}
+					}
+				}
+			}
+
+			display.syncGameLogic(10);
+
+		}	
 
 	// Methode qui lit les fleches
 	public void direction() {
@@ -79,35 +107,7 @@ public class Snake {
 					dirSnake = Direction.DOWN;
 				}
 			}
-
 		});
-
-		while (play) {
-			
-			synchronized(display.frontBuffer){
-				display.clear();
-				display.drawString(20, 20, "Timer: ");
-
-				move(dirSnake);
-				for (int i = 0; i < GRAPHICS_WIDTH; i += 10) {
-					for (int j = 0; j < GRAPHICS_HEIGHT; j += 10) {
-
-						if (position[i / 10][j / 10] == 1) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/red.png"));
-						} else if (position[i / 10][j / 10] > 1) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/Colored/grey_clair.png"));
-						} else if (position[i / 10][j / 10] == -1) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/cherry.png"));
-						} else if (position[i / 10][j / 10] == -2) {
-							display.drawTransformedPicture(i, j, 0.0, 0.25, new GraphicsBitmap("/Pictures/scifiEnvironment_19.png"));
-						}
-					}
-				}
-			}
-
-			display.syncGameLogic(7);
-
-		}
 	}
 
 	// Methode pour le mouvement du snake
@@ -164,11 +164,13 @@ public class Snake {
 			length += 2;
 			position[headX][headY] = 1;
 			position[queuX][queuY] = length;
+			nbApple--;
+			score++;
 		} else if (position[headX][headY] == 0) {
 			position[headX][headY] = 1;
 			length++;
 		} else {
-			gameover();
+			play = false;
 		}
 
 	}
@@ -210,14 +212,32 @@ public class Snake {
 		int y = (int) (Math.random() * position.length);
 		if (position[x][y] == 0) {
 			position[x][y] = -1;
+			
 		}
+		nbApple ++;
 	}
 
 	// Methode s'il y a un echec
 	public void gameover() {
-		display.clear();
 		play = false;
+		display.clear(Color.WHITE);
+		display.drawString(100, 200, "Sorry, you lose!", Color.RED, 50);
+		display.drawString(200, 500, "Your score is : "+ score, Color.BLUE, 50);
+		
 
+	}
+	
+	public void play(){
+		
+		while(play){
+			direction();
+			move(dirSnake);
+			if(nbApple == 0){
+				apple();
+			}
+			screen();		
+		}
+		gameover();
 	}
 
 }
