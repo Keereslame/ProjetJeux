@@ -5,7 +5,7 @@ public class Level1 {
 		final static int GRAPHICS_WIDTH = 300;
 		final static int GRAPHICS_HEIGHT = 300;
 		
-	// Création de la fenêtre de jeu
+	// Crï¿½ation de la fenï¿½tre de jeu
 	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
 	
 	//Constantes de classe
