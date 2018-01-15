@@ -1,12 +1,12 @@
 import hevs.graphics.FunGraphics;
 
-public class Level1 {
+public class Level {
 	// Constantes pour la fenetre
 		final static int GRAPHICS_WIDTH = 300;
 		final static int GRAPHICS_HEIGHT = 300;
 		
 	// Creation de la fenetre de jeu
-	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT);
+	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT, 1200, 400, "Snake", true);
 	
 	//Constantes de classe
 	public static int nbWall = 3;
