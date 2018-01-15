@@ -82,7 +82,7 @@ public class Snake {
 				}
 			}
 
-			Level1.display.syncGameLogic(10);
+			Level1.display.syncGameLogic(Level1.fps);
 
 		}	
 
