@@ -185,8 +185,8 @@ public class Snake {
 			} else {
 				wallStraight = true;
 			}
-			int x = (int) (2+Math.random() * (position.length-2));
-			int y = (int) (2+Math.random() * (position.length-2));
+			int x = (int) (2 + Math.random() * (position.length-2));
+			int y = (int) (2 + Math.random() * (position.length-2));
 			for (int i = 0; i < wallLength; i++) {
 					if (wallStraight) {
 						if (position[x + i][y] == 0) {
