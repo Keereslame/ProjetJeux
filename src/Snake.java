@@ -175,6 +175,7 @@ public class Snake {
 	// Creation d'obstacle
 	public void wall(int nbObstacles, int wallLength) {
 		int nbWall = 0;
+		int taille = 0;
 		boolean wallFlat = false;
 		boolean wallStraight = false;
 		
@@ -185,23 +186,26 @@ public class Snake {
 			} else {
 				wallStraight = true;
 			}
-			int x = (int) (2 + Math.random() * (position.length-2));
-			int y = (int) (2 + Math.random() * (position.length-2));
+			int x = (int) (2 + Math.random() * (position.length-wallLength-1));
+			int y = (int) (2 + Math.random() * (position.length-wallLength-1));
 			for (int i = 0; i < wallLength; i++) {
 					if (wallStraight) {
 						if (position[x + i][y] == 0) {
 							position[x + i][y] = -2;
-							nbWall++;
+							taille++;
 						}
 
 					}
 					if (wallFlat) {
 						if (position[x][y + i] == 0) {
 							position[x][y + i] = -2;
-							nbWall++;
+							taille++;
 						}
 					}
 				}
+			if(taille==wallLength){
+				nbWall++;
+			}
 		
 		}	
 	}
@@ -212,10 +216,10 @@ public class Snake {
 		int y = (int) (2+ Math.random() * (position.length-2));
 	
 		
-			//if (x>10 && x<position.length-10 && y>10 && y<position.length-10 && position[x][y] == 0) {
+			if (position[x][y] == 0) {
 				position[x][y] = -1;
 				nbApple ++;
-			//}
+			}
 			
 		
 	}
