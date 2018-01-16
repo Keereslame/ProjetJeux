@@ -92,7 +92,7 @@ public class Snake {
 				for (int j = 0; j < Level.GRAPHICS_HEIGHT; j += 10) {
 					
 					if (position[i/10][j/10]==0) {
-						Level.display.drawTransformedPicture(i+5, j+5, 0.0, 0.25, v);
+						//Level.display.drawTransformedPicture(i+5, j+5, 0.0, 0.25, v);
 						//Level.display.clear(Color.GREEN);
 						}
 					else if (position[i/10][j/10]==-1){
@@ -176,7 +176,7 @@ public class Snake {
 //						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, rock);
 //						break;
 //					case 0:
-//						break;
+//						break;updateGraphicsView
 //					default:
 //						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, body);
 //						break;
