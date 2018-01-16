@@ -13,7 +13,7 @@ public class Snake {
 	// Attributs de classe
 	int length;
 	Direction dirSnake;
-	int position[][] = new int[Level.GRAPHICS_WIDTH / 10][Level.GRAPHICS_HEIGHT / 10];
+	int position[][] = new int[Level.GRAPHICS_WIDTH / 10][Level.GRAPHICS_HEIGHT / 13];
 	int posx = position.length / 2;
 	int posy = position[0].length / 2;
 	GraphicsBitmap head = new GraphicsBitmap("/Pictures/Colored/red.png");
@@ -82,86 +82,86 @@ public class Snake {
 
 	// methode d'affichage
 	public void updateGraphicsView() {
-		double r=10.0/65.0;
+		double r=0.2;
 		synchronized (Level.display.frontBuffer) {
 			Level.display.clear();
 			Level.display.drawString(20, 20, "Timer: ");
 			
 
-			for (int i = 0; i < Level.GRAPHICS_WIDTH; i += 10) {
-				for (int j = 0; j < Level.GRAPHICS_HEIGHT; j += 10) {
+			for (int i = 0; i < position.length; i ++) {
+				for (int j = 0; j < position.length; j ++) {
 					
-					if (position[i/10][j/10]==0) {
-						//Level.display.drawTransformedPicture(i+5, j+5, 0.0, 0.25, v);
+					if (position[i][j]==0) {
+						Level.display.drawTransformedPicture(i*13, j*13, 0.0, r, v);
 						//Level.display.clear(Color.GREEN);
 						}
-					else if (position[i/10][j/10]==-1){
-						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, p);
+					else if (position[i][j]==-1){
+						Level.display.drawTransformedPicture(i*13, j*13, 0.0, r, p);
 						
-					}else if (position[i/10][j/10]==-2 && (position[i/10][(j-1)/10]==-2 || position[i/10][(j+1)/10]==-2)){
+					}else if (position[i][j]==-2 && (position[i][j-1]==-2 || position[i][j+1]==-2)){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, mgd);
 						}
-					else if (position[i/10][j/10]==-2 && (position[(i-1)/10][j/10]==-2 || position[(i+1)/10][j/10]==-2)){
+					else if (position[i][j]==-2 && (position[i-1][j]==-2 || position[i+1][j]==-2)){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, mhb);
 						}
-					else if (position[i/10][j/10]==1&&position[i/10][(j-1)/10]>0&&position[i/10][(j+1)/10]==-1){
+					else if (position[i][j]==1&&position[i][j-1]>0&&position[i][j+1]==-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tnd);
 						}
-					else if (position[i/10][j/10]==1&&position[i/10][(j+1)/10]>0&&position[i/10][(j-1)/10]==-1){
+					else if (position[i][j]==1&&position[i][j+1]>0&&position[i][j-1]==-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tng);
 						}
-					else if (position[i/10][j/10]==1&&position[(i-1)/10][j/10]>0&&position[(i+1)/10][j/10]==-1){
+					else if (position[i][j]==1&&position[i-1][j]>0&&position[i+1][j]==-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tnb);
 					}
-					else if (position[i/10][j/10]==1&&position[(i+1)/10][j/10]>0&&position[(i-1)/10][j/10]==-1){
+					else if (position[i][j]==1&&position[i+1][j]>0&&position[i-1][j]==-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tnh);
 						}					
-					else if (position[i/10][j/10]==1&&position[i/10][(j-1)/10]>0&&position[i/10][(j+1)/10]==0){
+					else if (position[i][j]==1&&position[i][j-1]>0&&position[i][j+1]==0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tcd);
 						}
-					else if (position[i/10][j/10]==1&&position[i/10][(j+1)/10]>0&&position[i/10][(j-1)/10]==0){
+					else if (position[i][j]==1&&position[i][j+1]>0&&position[i][j-1]==0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tcg);
 						}
-					else if (position[i/10][j/10]==1&&position[(i-1)/10][j/10]>0&&position[(i+1)/10][j/10]==0){
+					else if (position[i][j]==1&&position[i-1][j]>0&&position[i+1][j]==0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tch);
 						}
-					else if (position[i/10][j/10]==1&&position[(i+1)/10][j/10]>0&&position[(i-1)/10][j/10]==0){
+					else if (position[i][j]==1&&position[i+1][j]>0&&position[i-1][j]==0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tcb);
 						}
-					else if (position[i/10][j/10]>1&&position[i/10][(j-1)/10]>position[i/10][(j+1)/10]){
+					else if (position[i][j]>1&&position[i][j-1]>position[i][j+1]){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtd);
 						}
-					else if (position[i/10][j/10]>1&&position[i/10][(j-1)/10]<position[i/10][(j+1)/10]){
+					else if (position[i][j]>1&&position[i][j-1]<position[i][j+1]){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtg);
 						}
-					else if (position[i/10][j/10]>1&&position[(i-1)/10][j/10]>position[(i+1)/10][j/10]){
+					else if (position[i][j]>1&&position[i-1][j]>position[i+1][j]){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtb);
 						}
-					else if (position[i/10][j/10]>1&&position[(i-1)/10][j/10]<position[(i+1)/10][j/10]){
+					else if (position[i][j]>1&&position[i-1][j]<position[i+1][j]){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdth);
 						}
-					else if (position[i/10][j/10]>1 && position[i/10][(j-1)/10]>0 && position[(i+1)/10][j/10]>0){
+					else if (position[i][j]>1 && position[i][j-1]>0 && position[i+1][j]>0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cgb);
 						}
-					else if (position[i/10][j/10]>1 && position[i/10][(j+1)/10]>0 && position[(i+1)/10][j/10]>0){
+					else if (position[i][j]>1 && position[i][j+1]>0 && position[i+1][j]>0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cbd);
 						}
-					else if (position[i/10][j/10]>1 && position[i/10][(j-1)/10]>0 && position[(i-1)/10][j/10]>0){
+					else if (position[i][j]>1 && position[i][j-1]>0 && position[i-1][j]>0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cgh);
 						}
-					else if (position[i/10][j/10]>1 && position[i/10][(j+1)/10]>0 && position[(i-1)/10][j/10]>0){
+					else if (position[i][j]>1 && position[i][j+1]>0 && position[i-1][j]>0){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, chd);
 						}
-					else if (position[i/10][j/10]==length && position[i/10][(j-1)/10]==length-1){
+					else if (position[i][j]==length && position[i][j-1]==length-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qcd);
 						}
-					else if (position[i/10][j/10]==length && position[i/10][(j+1)/10]==length-1){
+					else if (position[i][j]==length && position[i][j+1]==length-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qcg);
 						}
-					else if (position[i/10][j/10]==length && position[(i-1)/10][j/10]==length-1){
+					else if (position[i][j]==length && position[i-1][j]==length-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qch);
 						}
-					else if (position[i/10][j/10]==length && position[(i+1)/10][j/10]==length-1){
+					else if (position[i][j]==length && position[i+1][j]==length-1){
 						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qcb);
 						}
 					
