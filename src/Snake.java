@@ -13,7 +13,7 @@ public class Snake {
 	// Attributs de classe
 	int length;
 	Direction dirSnake;
-	int position[][] = new int[Level.GRAPHICS_WIDTH/10][Level.GRAPHICS_HEIGHT/10];
+	int position[][] = new int[Level.GRAPHICS_WIDTH / 10][Level.GRAPHICS_HEIGHT / 10];
 	int posx = position.length / 2;
 	int posy = position[0].length / 2;
 	GraphicsBitmap head = new GraphicsBitmap("/Pictures/Colored/red.png");
@@ -23,13 +23,9 @@ public class Snake {
 	int nbApple = 0;
 	int score = 0;
 
-	
-
 	// Savoir si on est train de jouer ou non
 	boolean play = false;
 
-	
-	
 	// Constructeur
 	public Snake(int length, Direction direction) {
 
@@ -54,37 +50,42 @@ public class Snake {
 		}
 		play = true;
 		apple();
-		
-		
 
 	}
-	
-	//methode d'affichage
-	public void updateGraphicsView(){
-		
-			synchronized(Level.display.frontBuffer){
-				Level.display.clear();
-				Level.display.drawString(20, 20, "Timer: ");
 
-				for (int i = 0; i < Level.GRAPHICS_WIDTH; i += 10) {
-					for (int j = 0; j < Level.GRAPHICS_HEIGHT; j += 10) {
+	// methode d'affichage
+	public void updateGraphicsView() {
 
-						if (position[i/10][j/10] == 1) {
-							Level.display.drawTransformedPicture(i, j, 0.0, 0.25, head);
-						} else if (position[i/10][j/10] > 1) {
-							Level.display.drawTransformedPicture(i, j, 0.0, 0.25, body);
-						} else if (position[i/10][j/10] == -1) {
-							Level.display.drawTransformedPicture(i, j, 0.0, 0.25, apple);
-						} else if (position[i/10][j/10] == -2) {
-							Level.display.drawTransformedPicture(i, j, 0.0, 0.25, rock);
-						}
+		synchronized (Level.display.frontBuffer) {
+			Level.display.clear();
+			Level.display.drawString(20, 20, "Timer: ");
+
+			for (int i = 0; i < Level.GRAPHICS_WIDTH; i += 10) {
+				for (int j = 0; j < Level.GRAPHICS_HEIGHT; j += 10) {
+					
+					switch(position[i/10][j/10]){
+					case 1:
+						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, head);
+						break;
+					case -1:
+						Level.display.drawTransformedPicture(i + 5, j, 0.0, 0.25, apple);
+						break;
+					case -2:
+						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, rock);
+						break;
+					case 0:
+						break;
+					default:
+						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, body);
+						break;
 					}
 				}
 			}
+		}
 
-			Level.display.syncGameLogic(Level.fps);
+		Level.display.syncGameLogic(Level.fps);
 
-		}	
+	}
 
 	// Methode qui lit les fleches
 	public void direction() {
@@ -151,10 +152,10 @@ public class Snake {
 			headX = 0;
 		} else if (headY == position.length) {
 			headY = 0;
-		} else if (headX == 0) {
-			headX = position.length-1;
-		} else if (headY == 0) {
-			headY = position.length-1;
+		} else if (headX == -1) {
+			headX = position.length - 1;
+		} else if (headY == -1) {
+			headY = position.length - 1;
 		}
 
 		if (position[headX][headY] == -1) {
@@ -176,73 +177,67 @@ public class Snake {
 	public void wall(int nbObstacles, int wallLength) {
 		int nbWall = 0;
 		int taille = 0;
-		boolean wallFlat = false;
-		boolean wallStraight = false;
 		
 		while (nbWall < nbObstacles) {
-			
+			boolean vertical = false;
+		
 			if (Math.random() < 0.5) {
-				wallFlat = true;
+				vertical = false;
 			} else {
-				wallStraight = true;
+				vertical = true;
 			}
-			int x = (int) (2 + Math.random() * (position.length-wallLength-1));
-			int y = (int) (2 + Math.random() * (position.length-wallLength-1));
+			int x = (int) (Math.random() * (position.length-wallLength));
+			int y = (int) (Math.random() * (position[0].length-wallLength));
 			for (int i = 0; i < wallLength; i++) {
-					if (wallStraight) {
-						if (position[x + i][y] == 0) {
-							position[x + i][y] = -2;
-							taille++;
-						}
-
-					}
-					if (wallFlat) {
-						if (position[x][y + i] == 0) {
-							position[x][y + i] = -2;
-							taille++;
-						}
+				if (vertical) {
+					if (position[x][y + i] == 0) {
+						position[x][y + i] = -2;
 					}
 				}
-			if(taille==wallLength){
-				nbWall++;
+				else
+				{
+					if (position[x + i][y] == 0) {
+						position[x + i][y] = -2;
+					}
+					
+				}
 			}
-		
-		}	
+			nbWall++;
+		}
 	}
 
 	// Creation de pomme
 	public void apple() {
-		int x = (int) (2+ Math.random() * (position.length-2));
-		int y = (int) (2+ Math.random() * (position.length-2));
-	
-		
-			if (position[x][y] == 0) {
-				position[x][y] = -1;
-				nbApple ++;
-			}
-			
-		
+		int x = (int) (Math.random() * (position.length));
+		int y = (int) (Math.random() * (position[0].length));
+
+		if (position[x][y] == 0) {
+			position[x][y] = -1;
+			nbApple++;
+		}
+
 	}
 
 	// Methode s'il y a un echec
 	public void gameover() {
 		play = false;
 		Level.display.clear(Color.WHITE);
-		Level.display.drawString(Level.GRAPHICS_WIDTH/3, Level.GRAPHICS_HEIGHT/3, "Sorry, you lose!", Color.RED, 10);
-		Level.display.drawString(100, 200, "Your score is : "+ score, Color.BLUE, 10);
-		
+		Level.display.drawString(Level.GRAPHICS_WIDTH / 3, Level.GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED,
+				10);
+		Level.display.drawString(100, 200, "Your score is : " + score, Color.BLUE, 10);
 
 	}
-	
-	public void play(){
+
+	public void play() {
 		wall(Level.nbWall, Level.tailleWall);
-		while(play){
-			direction();
+		direction();
+		while (play) {
+			
 			move(dirSnake);
-			if(nbApple == 0){
+			if (nbApple == 0) {
 				apple();
 			}
-			updateGraphicsView();		
+			updateGraphicsView();
 		}
 		gameover();
 	}
