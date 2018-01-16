@@ -10,7 +10,7 @@ public class Dessin {
 			for (int i = 0; i < Level.GRAPHICS_WIDTH; i += 10) {
 				for (int j = 0; j < Level.GRAPHICS_HEIGHT; j += 10) {
 
-					if (if (position[i][j]==0) {
+					if (position[i][j]==0) {
 						Level.display.drawTransformedPicture(i, j, 0.0, 0.25, v);
 						break;}
 					else if (position[i][j]==-1){
@@ -20,7 +20,7 @@ public class Dessin {
 						Level.display.drawTransformedPicture(i, j, 0.0, 0.25, mgd);
 						break;}
 					else if (position[i][j]==-2 && (position[i-1][j]==-2 || position[i+1][j]==-2){
-						Level.display.drawTransformedPicture(i, j, 0.0, 0.25, mhd);
+						Level.display.drawTransformedPicture(i, j, 0.0, 0.25, mhb);
 						break;}
 					else if (position[i][j]==1&&position[i][j-1]>0&&position[i][j+1]==-1){
 						Level.display.drawTransformedPicture(i, j, 0.0, 0.25, tnd);

@@ -20,6 +20,33 @@ public class Snake {
 	GraphicsBitmap body = new GraphicsBitmap("/Pictures/Colored/grey_clair.png");
 	GraphicsBitmap apple = new GraphicsBitmap("/Pictures/cherry.png");
 	GraphicsBitmap rock = new GraphicsBitmap("/Pictures/scifiEnvironment_19.png");
+	
+	//images pixels
+	GraphicsBitmap v = new GraphicsBitmap("/Pictures/pixel/v.png");
+	GraphicsBitmap p = new GraphicsBitmap("/Pictures/pixel/p.png");
+	GraphicsBitmap mgd = new GraphicsBitmap("/Pictures/pixel/mgd.png");
+	GraphicsBitmap mhb = new GraphicsBitmap("/Pictures/pixel/mhb.png");
+	GraphicsBitmap tnd = new GraphicsBitmap("/Pictures/pixel/tnd.png");
+	GraphicsBitmap tng = new GraphicsBitmap("/Pictures/pixel/tng.png");
+	GraphicsBitmap tnb= new GraphicsBitmap("/Pictures/pixel/tnb.png");
+	GraphicsBitmap tnh= new GraphicsBitmap("/Pictures/pixel/tnh.png");
+	GraphicsBitmap tcd= new GraphicsBitmap("/Pictures/pixel/tcd.png");
+	GraphicsBitmap tcg= new GraphicsBitmap("/Pictures/pixel/tcg.png");
+	GraphicsBitmap tch= new GraphicsBitmap("/Pictures/pixel/tch.png");
+	GraphicsBitmap tcb= new GraphicsBitmap("/Pictures/pixel/tcb.png");
+	GraphicsBitmap cdtd= new GraphicsBitmap("/Pictures/pixel/cdtd.png");
+	GraphicsBitmap cdtg= new GraphicsBitmap("/Pictures/pixel/cdtg.png");
+	GraphicsBitmap cdtb= new GraphicsBitmap("/Pictures/pixel/cdtb.png");
+	GraphicsBitmap cdth= new GraphicsBitmap("/Pictures/pixel/cdth.png");
+	GraphicsBitmap cgb= new GraphicsBitmap("/Pictures/pixel/cgb.png");
+	GraphicsBitmap cbd= new GraphicsBitmap("/Pictures/pixel/cbd.png");
+	GraphicsBitmap cgh= new GraphicsBitmap("/Pictures/pixel/cgh.png");
+	GraphicsBitmap chd= new GraphicsBitmap("/Pictures/pixel/chd.png");
+	GraphicsBitmap qcd= new GraphicsBitmap("/Pictures/pixel/qcd.png");
+	GraphicsBitmap qcg= new GraphicsBitmap("/Pictures/pixel/qcg.png");
+	GraphicsBitmap qch= new GraphicsBitmap("/Pictures/pixel/qch.png");
+	GraphicsBitmap qcb= new GraphicsBitmap("/Pictures/pixel/qcb.png");
+	
 	int nbApple = 0;
 	int score = 0;
 
@@ -55,30 +82,105 @@ public class Snake {
 
 	// methode d'affichage
 	public void updateGraphicsView() {
-
+		double r=10.0/65.0;
 		synchronized (Level.display.frontBuffer) {
 			Level.display.clear();
 			Level.display.drawString(20, 20, "Timer: ");
+			
 
 			for (int i = 0; i < Level.GRAPHICS_WIDTH; i += 10) {
 				for (int j = 0; j < Level.GRAPHICS_HEIGHT; j += 10) {
 					
-					switch(position[i/10][j/10]){
-					case 1:
-						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, head);
-						break;
-					case -1:
-						Level.display.drawTransformedPicture(i + 5, j, 0.0, 0.25, apple);
-						break;
-					case -2:
-						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, rock);
-						break;
-					case 0:
-						break;
-					default:
-						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, body);
-						break;
+					if (position[i/10][j/10]==0) {
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, 0.25, v);
+						//Level.display.clear(Color.GREEN);
+						}
+					else if (position[i/10][j/10]==-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, p);
+						
+					}else if (position[i/10][j/10]==-2 && (position[i/10][(j-1)/10]==-2 || position[i/10][(j+1)/10]==-2)){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, mgd);
+						}
+					else if (position[i/10][j/10]==-2 && (position[(i-1)/10][j/10]==-2 || position[(i+1)/10][j/10]==-2)){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, mhb);
+						}
+					else if (position[i/10][j/10]==1&&position[i/10][(j-1)/10]>0&&position[i/10][(j+1)/10]==-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tnd);
+						}
+					else if (position[i/10][j/10]==1&&position[i/10][(j+1)/10]>0&&position[i/10][(j-1)/10]==-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tng);
+						}
+					else if (position[i/10][j/10]==1&&position[(i-1)/10][j/10]>0&&position[(i+1)/10][j/10]==-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tnb);
 					}
+					else if (position[i/10][j/10]==1&&position[(i+1)/10][j/10]>0&&position[(i-1)/10][j/10]==-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tnh);
+						}					
+					else if (position[i/10][j/10]==1&&position[i/10][(j-1)/10]>0&&position[i/10][(j+1)/10]==0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tcd);
+						}
+					else if (position[i/10][j/10]==1&&position[i/10][(j+1)/10]>0&&position[i/10][(j-1)/10]==0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tcg);
+						}
+					else if (position[i/10][j/10]==1&&position[(i-1)/10][j/10]>0&&position[(i+1)/10][j/10]==0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tch);
+						}
+					else if (position[i/10][j/10]==1&&position[(i+1)/10][j/10]>0&&position[(i-1)/10][j/10]==0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, tcb);
+						}
+					else if (position[i/10][j/10]>1&&position[i/10][(j-1)/10]>position[i/10][(j+1)/10]){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtd);
+						}
+					else if (position[i/10][j/10]>1&&position[i/10][(j-1)/10]<position[i/10][(j+1)/10]){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtg);
+						}
+					else if (position[i/10][j/10]>1&&position[(i-1)/10][j/10]>position[(i+1)/10][j/10]){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtb);
+						}
+					else if (position[i/10][j/10]>1&&position[(i-1)/10][j/10]<position[(i+1)/10][j/10]){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cdth);
+						}
+					else if (position[i/10][j/10]>1 && position[i/10][(j-1)/10]>0 && position[(i+1)/10][j/10]>0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cgb);
+						}
+					else if (position[i/10][j/10]>1 && position[i/10][(j+1)/10]>0 && position[(i+1)/10][j/10]>0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cbd);
+						}
+					else if (position[i/10][j/10]>1 && position[i/10][(j-1)/10]>0 && position[(i-1)/10][j/10]>0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, cgh);
+						}
+					else if (position[i/10][j/10]>1 && position[i/10][(j+1)/10]>0 && position[(i-1)/10][j/10]>0){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, chd);
+						}
+					else if (position[i/10][j/10]==length && position[i/10][(j-1)/10]==length-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qcd);
+						}
+					else if (position[i/10][j/10]==length && position[i/10][(j+1)/10]==length-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qcg);
+						}
+					else if (position[i/10][j/10]==length && position[(i-1)/10][j/10]==length-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qch);
+						}
+					else if (position[i/10][j/10]==length && position[(i+1)/10][j/10]==length-1){
+						Level.display.drawTransformedPicture(i+5, j+5, 0.0, r, qcb);
+						}
+					
+//					switch(position[i/10][j/10]){
+//					case 1:
+//						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, head);
+//						break;
+//					case -1:
+//						Level.display.drawTransformedPicture(i + 5, j, 0.0, 0.25, apple);
+//						break;
+//					case -2:
+//						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, rock);
+//						break;
+//					case 0:
+//						break;
+//					default:
+//						Level.display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, body);
+//						break;
+//					}
 				}
 			}
 		}
