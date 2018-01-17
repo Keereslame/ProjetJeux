@@ -249,21 +249,16 @@ public class Snake {
 							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
 
 						} else 
-						
-						if(i>0 && position[i][j - 1] > 0 && position[i - 1][j] > 0) {
+						//coude gauche haut
+						if(i > 0 && j>0 && position[i][j - 1] > 0 && position[i - 1][j] > 0) {
 							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
 							
-						}else if(i<length&& position[i][j - 1] > 0 && position[i + 1][j] > 0)
+						//coude haut droite
+						}else if(i <length && j>0 && position[i][j - 1] > 0 && position[i + 1][j] > 0) {
 							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
-								
-						}else if(j>0 && position[i][j + 1] > 0 && position[i - 1][j] > 0) {
-							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);	
-						
-								
-						}else if(j<length && position[i][j + 1] > 0 && position[i + 1][j] > 0) {
-							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
-						}else{	
 							
+						//coude
+						}else{		
 							
 							
 							
