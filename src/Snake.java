@@ -18,12 +18,13 @@ public class Snake {
 	int posx = position.length / 2;
 	int posy = position[0].length / 2;
 	GraphicsBitmap head = new GraphicsBitmap("/Pictures/Colored/red.png");
-	GraphicsBitmap body = new GraphicsBitmap("/Pictures/Colored/grey_clair.png");
+	GraphicsBitmap body = new GraphicsBitmap("/Pictures/Colored/blue.png");
 	GraphicsBitmap apple = new GraphicsBitmap("/Pictures/cherry.png");
 	GraphicsBitmap rock = new GraphicsBitmap("/Pictures/scifiEnvironment_19.png");
 	GraphicsBitmap queue = new GraphicsBitmap("/Pictures/Colored/yellow.png");
 	GraphicsBitmap coude = new GraphicsBitmap("/Pictures/Colored/green.png");
-	
+	GraphicsBitmap vide = new GraphicsBitmap("/Pictures/Colored/grey_clair.png");
+
 	// images pixels
 	GraphicsBitmap v = new GraphicsBitmap("/Pictures/pixel/v.png");
 	GraphicsBitmap p = new GraphicsBitmap("/Pictures/pixel/p.png");
@@ -153,7 +154,7 @@ public class Snake {
 
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position.length; j++) {
-
+//
 //					switch (position[i][j]) {
 //
 //					case 0:
@@ -210,7 +211,10 @@ public class Snake {
 //								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cdtb);
 //							} else if (position[i - 1][j] < position[i + 1][j]) {
 //								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cdth);
-//							} else if (position[i][j - 1] > 0 && position[i + 1][j] > 0) {
+//							} 
+//							
+//							
+//							else if (position[i][j - 1] > 0 && position[i + 1][j] > 0) {
 //								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cgb);
 //							} else if (position[i][j + 1] > 0 && position[i + 1][j] > 0) {
 //								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cbd);
@@ -224,9 +228,13 @@ public class Snake {
 //					}
 
 					switch (position[i][j]) {
+					case 0:
+						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, vide);
+						break;
+
 					case 1:
 						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-					
+
 						break;
 					case -1:
 						display.drawTransformedPicture(i * 10 + 5, j * 10, 0.0, 0.25, apple);
@@ -234,17 +242,48 @@ public class Snake {
 					case -2:
 						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, rock);
 						break;
-					case 0:
-						break;
+
 					default:
-						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+						if (position[i][j] == length) {
+
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
+
+						} else 
+						
+						if(i>0 && position[i][j - 1] > 0 && position[i - 1][j] > 0) {
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+							
+						}else if(i<length&& position[i][j - 1] > 0 && position[i + 1][j] > 0)
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+								
+						}else if(j>0 && position[i][j + 1] > 0 && position[i - 1][j] > 0) {
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);	
+						
+								
+						}else if(j<length && position[i][j + 1] > 0 && position[i + 1][j] > 0) {
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+						}else{	
+							
+							
+							
+							
+							
+							
+							
+							
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+
+						}
+
+						// display.drawTransformedPicture(i * 10 + 5, j * 10 +
+						// 5, 0.0, 0.25, body);
 						break;
 					}
 				}
 			}
 		}
 
-		display.syncGameLogic(Level.fps);
+	display.syncGameLogic(Level.fps);
 
 	}
 
