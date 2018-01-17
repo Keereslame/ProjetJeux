@@ -28,11 +28,6 @@ public class Snake {
 	GraphicsBitmap queue = new GraphicsBitmap("/Pictures/Colored/yellow.png");
 	GraphicsBitmap coude = new GraphicsBitmap("/Pictures/Colored/green.png");
 	GraphicsBitmap vide = new GraphicsBitmap("/Pictures/Colored/grey_clair.png");
-	
-	
-	
-	
-	
 
 	// images pixels
 	GraphicsBitmap v = new GraphicsBitmap("/Pictures/pixel/v.png");
@@ -63,24 +58,15 @@ public class Snake {
 	int nbApple = 0;
 	int score = 0;
 
-	static int GRAPHICS_WIDTH = 320;
-	static int GRAPHICS_HEIGHT = 320;
+	private final static int GRAPHICS_WIDTH = 320;
+	private final static int GRAPHICS_HEIGHT = 320;
 
 	// Creation de la fenetre de jeu
 	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT, 1200, 400, "Snake", true);
 
 	// Constantes de classe
-	public static int nbWallLevel1 = 0;
-	public static int nbWallLevel2 = 5;
-	public static int nbWallLevel3 = 20;
-
-	public static int tailleWallLevel1 = 0;
-	public static int tailleWallLevel2 = 3;
-	public static int tailleWallLevel3 = 4;
-
-	public static int fpsLevel1 = 10;
-	public static int fpsLevel2 = 30;
-	public static int fpsLevel3 = 50;
+	public static int fps = 10;
+	public int level = 0;
 
 	// Savoir si on est train de jouer ou non
 	boolean play = false;
@@ -110,16 +96,8 @@ public class Snake {
 			}
 		}
 		play = true;
-		apple();
+		
 
-	}
-
-	public void setWidth(int width) {
-		GRAPHICS_WIDTH = width;
-	}
-
-	public void setHeight(int height) {
-		GRAPHICS_HEIGHT = height;
 	}
 
 	// methode d'affichage du menu
@@ -131,35 +109,51 @@ public class Snake {
 		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 100, "3) Level 3", Color.BLACK, 10);
 		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 200, "Please select one Leevel : ", Color.BLACK,
 				10);
-		int level = Dialogs.getInt("Your choice:");
-
-		switch (level) {
+		level = Dialogs.getInt("Your choice:") - '0';
+		
+		switch(level){
 		case 1:
-			nbWallLevel1 = 0;
-			tailleWallLevel1 = 0;
-			fpsLevel1 = 10;
+			apple();
 			break;
 		case 2:
-			nbWallLevel2 = 5;
-			tailleWallLevel2 = 3;
-			fpsLevel2 = 30;
+			for(int i = 0; i < position.length; i++){
+				for(int j = 0; j < position[i].length; j++){
+					if(i == 0 || j == 0 || i == position.length -1 || j == position[i].length-1){
+						position[i][j] = -2;
+					}
+				}
+			}
+			apple();
 			break;
 		case 3:
-			nbWallLevel3 = 20;
-			tailleWallLevel3 = 4;
-			fpsLevel3 = 50;
-			break;
+			for(int i = 0; i < position.length; i++){
+				for(int j = 0; j < position[i].length; j++){
+					if((i == 0 || i == position.length-1 ) && position[i][j] == 0){
+						position[i][j] = -2;
+					}else if((j == 7 && i <= 16) || (j == 24 && i>16) && (position[i][j] == 0)){
+						position[i][j] = -2;
+					}else if((i == 8 && j <16 && j>7 )|| (i== 23 && j<25 && j>14)&& (position[i][j] == 0)){
+						position[i][j] = -2;
+					}
+				}
+				
+				
+			}
+			apple();
+			
 		}
 	}
 
 	// methode d'affichage
 	public void updateGraphicsViewGame() {
-		
+				
 		double r = 0.2;
 		synchronized (display.frontBuffer) {
 			display.clear();
-			display.drawString(20, 20, "Timer: ");
 
+		
+			
+			
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position.length; j++) {
 //
@@ -310,10 +304,12 @@ public class Snake {
 						break;
 					}
 				}
+
+				display.drawString(20, 20, "Score: " + score, Color.BLACK, 15);
 			}
 		}
 
-	display.syncGameLogic(fpsLevel1);
+	display.syncGameLogic(fps);
 
 	}
 
@@ -322,16 +318,16 @@ public class Snake {
 		display.setKeyManager(new KeyAdapter() {
 
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT ||(e.getKeyCode() == KeyEvent.VK_LEFT && dirSnake == Direction.RIGHT)) {
 					dirSnake = Direction.RIGHT;
 
-				} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				} else if (e.getKeyCode() == KeyEvent.VK_LEFT ||(e.getKeyCode() == KeyEvent.VK_RIGHT && dirSnake == Direction.LEFT)) {
 					dirSnake = Direction.LEFT;
 
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+				} else if (e.getKeyCode() == KeyEvent.VK_UP ||(e.getKeyCode() == KeyEvent.VK_DOWN && dirSnake == Direction.UP)) {
 					dirSnake = Direction.UP;
 
-				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				} else if (e.getKeyCode() == KeyEvent.VK_DOWN ||(e.getKeyCode() == KeyEvent.VK_UP && dirSnake == Direction.DOWN)) {
 					dirSnake = Direction.DOWN;
 				}
 			}
@@ -404,35 +400,35 @@ public class Snake {
 	}
 
 	// Creation d'obstacle
-	public void wall(int nbObstacles, int wallLength) {
-		int nbWall = 0;
-		int taille = 0;
-
-		while (nbWall < nbObstacles) {
-			boolean vertical = false;
-
-			if (Math.random() < 0.5) {
-				vertical = false;
-			} else {
-				vertical = true;
-			}
-			int x = (int) (Math.random() * (position.length - wallLength));
-			int y = (int) (Math.random() * (position[0].length - wallLength));
-			for (int i = 0; i < wallLength; i++) {
-				if (vertical) {
-					if (position[x][y + i] == 0) {
-						position[x][y + i] = -2;
-					}
-				} else {
-					if (position[x + i][y] == 0) {
-						position[x + i][y] = -2;
-					}
-
-				}
-			}
-			nbWall++;
-		}
-	}
+//	public void wall(int nbObstacles, int wallLength) {
+//		int nbWall = 0;
+//		int taille = 0;
+//
+//		while (nbWall < nbObstacles) {
+//			boolean vertical = false;
+//
+//			if (Math.random() < 0.5) {
+//				vertical = false;
+//			} else {
+//				vertical = true;
+//			}
+//			int x = (int) (Math.random() * (position.length - wallLength));
+//			int y = (int) (Math.random() * (position[0].length - wallLength));
+//			for (int i = 0; i < wallLength; i++) {
+//				if (vertical) {
+//					if (position[x][y + i] == 0) {
+//						position[x][y + i] = -2;
+//					}
+//				} else {
+//					if (position[x + i][y] == 0) {
+//						position[x + i][y] = -2;
+//					}
+//
+//				}
+//			}
+//			nbWall++;
+//		}
+//	}
 
 	// Creation de pomme
 	public void apple() {
@@ -442,6 +438,10 @@ public class Snake {
 		if (position[x][y] == 0) {
 			position[x][y] = -1;
 			nbApple++;
+		}
+		
+		if(score%3 == 0 && level == 1){
+			fps+=2;
 		}
 
 	}
@@ -457,7 +457,7 @@ public class Snake {
 
 	public void play() {
 		updateGraphicsViewMenu();
-		wall(nbWallLevel2, tailleWallLevel2);
+		//wall(nbWallLevel2, tailleWallLevel2);
 		direction();
 		while (play) {
 
