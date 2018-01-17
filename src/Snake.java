@@ -21,8 +21,10 @@ public class Snake {
 	GraphicsBitmap body = new GraphicsBitmap("/Pictures/Colored/grey_clair.png");
 	GraphicsBitmap apple = new GraphicsBitmap("/Pictures/cherry.png");
 	GraphicsBitmap rock = new GraphicsBitmap("/Pictures/scifiEnvironment_19.png");
+	GraphicsBitmap queue = new GraphicsBitmap("/Pictures/Colored/yellow.png");
+	GraphicsBitmap coude = new GraphicsBitmap("/Pictures/Colored/green.png");
 	
-	//images pixels
+	// images pixels
 	GraphicsBitmap v = new GraphicsBitmap("/Pictures/pixel/v.png");
 	GraphicsBitmap p = new GraphicsBitmap("/Pictures/pixel/p.png");
 	GraphicsBitmap mgd = new GraphicsBitmap("/Pictures/pixel/mgd.png");
@@ -47,21 +49,21 @@ public class Snake {
 	GraphicsBitmap qcg = new GraphicsBitmap("/Pictures/pixel/qcg.png");
 	GraphicsBitmap qch = new GraphicsBitmap("/Pictures/pixel/qch.png");
 	GraphicsBitmap qcb = new GraphicsBitmap("/Pictures/pixel/qcb.png");
-	
+
 	int nbApple = 0;
 	int score = 0;
-	
+
 	static int GRAPHICS_WIDTH = 300;
 	static int GRAPHICS_HEIGHT = 300;
-	
+
 	// Creation de la fenetre de jeu
 	public static FunGraphics display = new FunGraphics(GRAPHICS_WIDTH, GRAPHICS_HEIGHT, 1200, 400, "Snake", true);
 
-	//Constantes de classe
+	// Constantes de classe
 	public static int nbWallLevel1 = 0;
 	public static int nbWallLevel2 = 5;
 	public static int nbWallLevel3 = 20;
-	
+
 	public static int tailleWallLevel1 = 0;
 	public static int tailleWallLevel2 = 3;
 	public static int tailleWallLevel3 = 4;
@@ -72,7 +74,7 @@ public class Snake {
 
 	// Savoir si on est train de jouer ou non
 	boolean play = false;
-	
+
 	Scanner scan = new Scanner(System.in);
 
 	// Constructeur
@@ -101,25 +103,27 @@ public class Snake {
 		apple();
 
 	}
-	public void setWidth(int width){
+
+	public void setWidth(int width) {
 		GRAPHICS_WIDTH = width;
 	}
-	
-	public void setHeight(int height){
+
+	public void setHeight(int height) {
 		GRAPHICS_HEIGHT = height;
 	}
-	
-	//methode d'affichage du menu
-	public void updateGraphicsViewMenu(){
+
+	// methode d'affichage du menu
+	public void updateGraphicsViewMenu() {
 		display.clear();
-		display.drawString(90, GRAPHICS_HEIGHT/4, "SNAKE by Philippine & Mathieu", Color.BLACK, 10);
-		display.drawString(GRAPHICS_WIDTH/3, GRAPHICS_HEIGHT/2, "1) Level 1", Color.BLACK, 10);
-		display.drawString(GRAPHICS_WIDTH/3, GRAPHICS_HEIGHT/2+50, "2) Level 2", Color.BLACK, 10);
-		display.drawString(GRAPHICS_WIDTH/3, GRAPHICS_HEIGHT/2+100, "3) Level 3", Color.BLACK, 10);
-		display.drawString(GRAPHICS_WIDTH/3, GRAPHICS_HEIGHT/2+200, "Please select one Leevel : ", Color.BLACK, 10);
+		display.drawString(90, GRAPHICS_HEIGHT / 4, "SNAKE by Philippine & Mathieu", Color.BLACK, 10);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2, "1) Level 1", Color.BLACK, 10);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 50, "2) Level 2", Color.BLACK, 10);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 100, "3) Level 3", Color.BLACK, 10);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 200, "Please select one Leevel : ", Color.BLACK,
+				10);
 		int level = Dialogs.getInt("Your choice:");
-		
-		switch (level){
+
+		switch (level) {
 		case 1:
 			nbWallLevel1 = 0;
 			tailleWallLevel1 = 0;
@@ -137,109 +141,105 @@ public class Snake {
 			break;
 		}
 	}
+
 	// methode d'affichage
 	public void updateGraphicsViewGame() {
 		setWidth(640);
 		setHeight(640);
-		double r=0.2;
+		double r = 0.2;
 		synchronized (display.frontBuffer) {
 			display.clear();
 			display.drawString(20, 20, "Timer: ");
-			
 
-			for (int i = 0; i < position.length; i ++) {
-				for (int j = 0; j < position.length; j ++) {
-					
-					if (position[i][j]==0) {
-						display.drawTransformedPicture(i*13, j*13, 0.0, r, v);
-						//display.clear(Color.GREEN);
-						}
-					else if (position[i][j]==-1){
-						display.drawTransformedPicture(i*13, j*13, 0.0, r, p);
-						
-					}else if (position[i][j]==-2 && (position[i][j-1]==-2 || position[i][j+1]==-2)){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, mgd);
-						}
-					else if (position[i][j]==-2 && (position[i-1][j]==-2 || position[i+1][j]==-2)){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, mhb);
-						}
-					else if (position[i][j]==1&&position[i][j-1]>0&&position[i][j+1]==-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tnd);
-						}
-					else if (position[i][j]==1&&position[i][j+1]>0&&position[i][j-1]==-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tng);
-						}
-					else if (position[i][j]==1&&position[i-1][j]>0&&position[i+1][j]==-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tnb);
-					}
-					else if (position[i][j]==1&&position[i+1][j]>0&&position[i-1][j]==-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tnh);
-						}					
-					else if (position[i][j]==1&&position[i][j-1]>0&&position[i][j+1]==0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tcd);
-						}
-					else if (position[i][j]==1&&position[i][j+1]>0&&position[i][j-1]==0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tcg);
-						}
-					else if (position[i][j]==1&&position[i-1][j]>0&&position[i+1][j]==0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tch);
-						}
-					else if (position[i][j]==1&&position[i+1][j]>0&&position[i-1][j]==0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, tcb);
-						}
-					else if (position[i][j]>1&&position[i][j-1]>position[i][j+1]){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtd);
-						}
-					else if (position[i][j]>1&&position[i][j-1]<position[i][j+1]){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtg);
-						}
-					else if (position[i][j]>1&&position[i-1][j]>position[i+1][j]){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cdtb);
-						}
-					else if (position[i][j]>1&&position[i-1][j]<position[i+1][j]){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cdth);
-						}
-					else if (position[i][j]>1 && position[i][j-1]>0 && position[i+1][j]>0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cgb);
-						}
-					else if (position[i][j]>1 && position[i][j+1]>0 && position[i+1][j]>0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cbd);
-						}
-					else if (position[i][j]>1 && position[i][j-1]>0 && position[i-1][j]>0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, cgh);
-						}
-					else if (position[i][j]>1 && position[i][j+1]>0 && position[i-1][j]>0){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, chd);
-						}
-					else if (position[i][j]==length && position[i][j-1]==length-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, qcd);
-						}
-					else if (position[i][j]==length && position[i][j+1]==length-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, qcg);
-						}
-					else if (position[i][j]==length && position[i-1][j]==length-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, qch);
-						}
-					else if (position[i][j]==length && position[i+1][j]==length-1){
-						display.drawTransformedPicture(i+5, j+5, 0.0, r, qcb);
-						}
-					
-//					switch(position[i/10][j/10]){
-//					case 1:
-//						display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, head);
+			for (int i = 0; i < position.length; i++) {
+				for (int j = 0; j < position.length; j++) {
+
+//					switch (position[i][j]) {
+//
+//					case 0:
+//						display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, v);
 //						break;
 //					case -1:
-//						display.drawTransformedPicture(i + 5, j, 0.0, 0.25, apple);
+//						display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, p);
 //						break;
 //					case -2:
-//						display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, rock);
+//						if (position[i][j - 1] == -2 || position[i][j + 1] == -2) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, mgd);
+//						} else {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, mhb);
+//						}
 //						break;
-//					case 0:
-//						break;updateGraphicsViewGame
+//					case 1:
+//						if (position[i][j - 1] > 0 && position[i][j + 1] == -1) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tnd);
+//						} else if (position[i][j + 1] > 0 && position[i][j - 1] == -1) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tng);
+//						} else if (position[i - 1][j] > 0 && position[i + 1][j] == -1) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tnb);
+//						} else if (position[i + 1][j] > 0 && position[i - 1][j] == -1) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tnh);
+//						} else if (position[i][j - 1] > 0 && position[i][j + 1] == 0) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tcd);
+//						} else if (position[i][j + 1] > 0 && position[i][j - 1] == 0) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tcg);
+//						} else if (position[i - 1][j] > 0 && position[i + 1][j] == 0) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tch);
+//						} else if (position[i + 1][j] > 0 && position[i - 1][j] == 0) {
+//							display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, tcb);
+//						}
+//
+//						break;
+//
 //					default:
-//						display.drawTransformedPicture(i + 5, j + 5, 0.0, 0.25, body);
+//						if (position[i][j] == length) {
+//							if (position[i][j - 1] == length - 1) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, qcd);
+//							} else if (position[i][j + 1] == length - 1) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, qcg);
+//							} else if (position[i - 1][j] == length - 1) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, qch);
+//							} else if (position[i + 1][j] == length - 1) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, qcb);
+//							}
+//						} else {
+//							if (position[i][j - 1] > position[i][j + 1]) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cdtd);
+//							} else if (position[i][j - 1] < position[i][j + 1]) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cdtg);
+//							} else if (position[i - 1][j] > position[i + 1][j]) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cdtb);
+//							} else if (position[i - 1][j] < position[i + 1][j]) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cdth);
+//							} else if (position[i][j - 1] > 0 && position[i + 1][j] > 0) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cgb);
+//							} else if (position[i][j + 1] > 0 && position[i + 1][j] > 0) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cbd);
+//							} else if (position[i][j - 1] > 0 && position[i - 1][j] > 0) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, cgh);
+//							} else if (position[i][j + 1] > 0 && position[i - 1][j] > 0) {
+//								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, r, chd);
+//							}
+//						}
 //						break;
 //					}
+
+					switch (position[i][j]) {
+					case 1:
+						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+					
+						break;
+					case -1:
+						display.drawTransformedPicture(i * 10 + 5, j * 10, 0.0, 0.25, apple);
+						break;
+					case -2:
+						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, rock);
+						break;
+					case 0:
+						break;
+					default:
+						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+						break;
+					}
 				}
 			}
 		}
@@ -338,29 +338,27 @@ public class Snake {
 	public void wall(int nbObstacles, int wallLength) {
 		int nbWall = 0;
 		int taille = 0;
-		
+
 		while (nbWall < nbObstacles) {
 			boolean vertical = false;
-		
+
 			if (Math.random() < 0.5) {
 				vertical = false;
 			} else {
 				vertical = true;
 			}
-			int x = (int) (Math.random() * (position.length-wallLength));
-			int y = (int) (Math.random() * (position[0].length-wallLength));
+			int x = (int) (Math.random() * (position.length - wallLength));
+			int y = (int) (Math.random() * (position[0].length - wallLength));
 			for (int i = 0; i < wallLength; i++) {
 				if (vertical) {
 					if (position[x][y + i] == 0) {
 						position[x][y + i] = -2;
 					}
-				}
-				else
-				{
+				} else {
 					if (position[x + i][y] == 0) {
 						position[x + i][y] = -2;
 					}
-					
+
 				}
 			}
 			nbWall++;
@@ -383,8 +381,7 @@ public class Snake {
 	public void gameover() {
 		play = false;
 		display.clear(Color.WHITE);
-		display.drawString(Level.GRAPHICS_WIDTH / 3, Level.GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED,
-				10);
+		display.drawString(Level.GRAPHICS_WIDTH / 3, Level.GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED, 10);
 		display.drawString(100, 200, "Your score is : " + score, Color.BLUE, 10);
 
 	}
@@ -394,7 +391,7 @@ public class Snake {
 		wall(Level.nbWall, Level.tailleWall);
 		direction();
 		while (play) {
-			
+
 			move(dirSnake);
 			if (nbApple == 0) {
 				apple();
