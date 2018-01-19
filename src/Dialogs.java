@@ -86,4 +86,5 @@ public class Dialogs {
 		JOptionPane.showMessageDialog(null, message, null, JOptionPane.PLAIN_MESSAGE);
 	}
 
+
 }
