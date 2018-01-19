@@ -109,20 +109,20 @@ public class Snake {
 	public void updateGraphicsViewMenu() {
 		display.clear();
 		display.drawString(90, GRAPHICS_HEIGHT / 4, "SNAKE by Philippine & Mathieu", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3+40, GRAPHICS_HEIGHT / 2+40, "1) Level 1", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3+40, GRAPHICS_HEIGHT / 2 + 90, "2) Level 2", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3+40, GRAPHICS_HEIGHT / 2 + 140, "3) Level 3", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3+40, GRAPHICS_HEIGHT / 2 + 240, "Please select one Level : ", Color.BLACK,
-				20);
+		display.drawString(GRAPHICS_WIDTH / 3 + 40, GRAPHICS_HEIGHT / 2 + 40, "1) Level 1", Color.BLACK, 20);
+		display.drawString(GRAPHICS_WIDTH / 3 + 40, GRAPHICS_HEIGHT / 2 + 90, "2) Level 2", Color.BLACK, 20);
+		display.drawString(GRAPHICS_WIDTH / 3 + 40, GRAPHICS_HEIGHT / 2 + 140, "3) Level 3", Color.BLACK, 20);
+		display.drawString(GRAPHICS_WIDTH / 3 + 40, GRAPHICS_HEIGHT / 2 + 240, "Please select one Level : ",
+				Color.BLACK, 20);
 		level = Dialogs.getInt("Your choice:") - '0';
 
 		switch (level) {
 		case 1:
-			//simple map sans obstacle, vitesse augmente chaque 3 pommes
+			// simple map sans obstacle, vitesse augmente chaque 3 pommes
 			apple();
 			break;
 		case 2:
-			//map avec mur sur le pourtour, vitesse constante
+			// map avec mur sur le pourtour, vitesse constante
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position[i].length; j++) {
 					if (i == 0 || j == 0 || i == position.length - 1 || j == position[i].length - 1) {
@@ -133,7 +133,7 @@ public class Snake {
 			apple();
 			break;
 		case 3:
-			//map avec plusieurs murs,aussi sur le milieu, vitesse constante
+			// map avec plusieurs murs,aussi sur le milieu, vitesse constante
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position[i].length; j++) {
 					if ((i == 0 || i == position.length - 1) && position[i][j] == 0) {
@@ -159,61 +159,58 @@ public class Snake {
 
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position.length; j++) {
-					//les valeurs des cases voisines
+					// les valeurs des cases voisines
 					int value_up = 0;
 					int value_dw = 0;
 					int value_rgt = 0;
 					int value_lft = 0;
 					int value_case = position[i][j];
+					// affichage 1=cases couleurs, 2=original snake grand format, 3=original snake
+					// si aff 1 fenetre 320x320 pixels
+					// si aff 2 fenetre 832x832 pixels
+					// si aff 3 fenetre 416x416 pixels
+					int aff = 2;
 					if (i == 0 && j == 0) {
 						value_up = position[i][31];
 						value_dw = position[i][j + 1];
 						value_rgt = position[i + 1][j];
 						value_lft = position[31][j];
-					}else
-					if (i == 0 && j > 0 && j < 31) {
+					} else if (i == 0 && j > 0 && j < 31) {
 						value_up = position[i][j - 1];
 						value_dw = position[i][j + 1];
 						value_rgt = position[i + 1][j];
 						value_lft = position[31][j];
-					}else
-					if (i == 0 && j == 31) {
+					} else if (i == 0 && j == 31) {
 						value_up = position[i][j - 1];
 						value_dw = position[i][0];
 						value_rgt = position[i + 1][j];
 						value_lft = position[31][j];
-					}else
-					if (i > 0 && i < 31 && j == 0) {
+					} else if (i > 0 && i < 31 && j == 0) {
 						value_up = position[i][31];
 						value_dw = position[i][j + 1];
 						value_rgt = position[i + 1][j];
 						value_lft = position[i - 1][j];
-					}else
-					if (i == 31 && j == 0) {
+					} else if (i == 31 && j == 0) {
 						value_up = position[i][31];
 						value_dw = position[i][j + 1];
 						value_rgt = position[0][j];
 						value_lft = position[i - 1][j];
-					}else
-					if (i > 0 && i < 31 && j > 0 && j < 31) {
+					} else if (i > 0 && i < 31 && j > 0 && j < 31) {
 						value_up = position[i][j - 1];
 						value_dw = position[i][j + 1];
 						value_rgt = position[i + 1][j];
 						value_lft = position[i - 1][j];
-					}else
-					if (i == 31 && j > 0 && j < 31) {
+					} else if (i == 31 && j > 0 && j < 31) {
 						value_up = position[i][j - 1];
 						value_dw = position[i][j + 1];
 						value_rgt = position[0][j];
 						value_lft = position[i - 1][j];
-					}else
-					if (i > 0 && i < 31 && j == 31) {
+					} else if (i > 0 && i < 31 && j == 31) {
 						value_up = position[i][j - 1];
 						value_dw = position[i][0];
 						value_rgt = position[i + 1][j];
 						value_lft = position[i - 1][j];
-					}else
-					if (i == 31 && j == 31) {
+					} else if (i == 31 && j == 31) {
 						value_up = position[i][j - 1];
 						value_dw = position[i][0];
 						value_rgt = position[0][j];
@@ -222,131 +219,225 @@ public class Snake {
 
 					switch (value_case) {
 					case -2:
-						//mur
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, rock);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, mur);
+						// mur
+						if (aff == 1)
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, rock);
+						if (aff == 2)
+							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, mur);
+						if (aff == 3)
+							display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, mur);
 						break;
 
 					case -1:
-						//pomme
-//						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, apple);
-						display.drawTransformedPicture(i * 26+13, j * 26+13, 0.0, 0.4, p);
+						// pomme
+						if (aff == 1)
+							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, apple);
+						if (aff == 2)
+							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, p);
+						if (aff == 3)
+							display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, p);
 						break;
 
 					case 0:
-						//vide
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, vide);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, v);
+						// vide
+						if (aff == 1)
+							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, vide);
+						if (aff == 2)
+							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, v);
+						if (aff == 3)
+							display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, v);
 						break;
 
 					case 1:
-						if(value_lft==2&&value_rgt==0) {
-							//tête normal corp gauche
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tcd);
+						if (value_lft == 2 && value_rgt == 0) {
+							// tête normal corp gauche
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tcd);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tcd);
 						}
-						if(value_lft==0&&value_rgt==2) {
-							//tête normal corp droite
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tcg);
+						if (value_lft == 0 && value_rgt == 2) {
+							// tête normal corp droite
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tcg);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tcg);
 						}
-						if(value_up==0&&value_dw==2) {
-							//tête normal corp bas
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tcb);
+						if (value_up == 0 && value_dw == 2) {
+							// tête normal corp bas
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tcb);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.4, tcb);
 						}
-						if(value_dw==0&&value_up==2) {
-							//tête normal corp haut
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tch);
+						if (value_dw == 0 && value_up == 2) {
+							// tête normal corp haut
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tch);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tch);
 						}
-						if(value_lft==2&&value_rgt==-1) {
-							//tête gueule ouverte corp gauche
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tnd);
+						if (value_lft == 2 && value_rgt == -1) {
+							// tête gueule ouverte corp gauche
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tnd);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tnd);
 						}
-						if(value_lft==-1&&value_rgt==2) {
-							//tête gueule ouverte corp droite
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tng);
+						if (value_lft == -1 && value_rgt == 2) {
+							// tête gueule ouverte corp droite
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tng);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tng);
 						}
-						if(value_up==-1&&value_dw==2) {
-							//tête gueule ouverte corp bas
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tnh);
+						if (value_up == -1 && value_dw == 2) {
+							// tête gueule ouverte corp bas
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tnh);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tnh);
 						}
-						if(value_dw==-1&&value_up==2) {
-							//tête gueule ouverte corp haut
-//						display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
-						display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tnb);
+						if (value_dw == -1 && value_up == 2) {
+							// tête gueule ouverte corp haut
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, head);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, tnb);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, tnb);
 						}
-						
+
 						break;
 
 					default:
 						if (value_rgt == value_case + 1 && value_lft == value_case - 1) {
 							// corp gauche Ã  droite
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdtd);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdtd);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j*13+7, 0.0, 0.2, cdtd);
 						}
 						if (value_rgt == value_case - 1 && value_lft == value_case + 1) {
 							// corp droite Ã  gauche
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdtg);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdtg);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, cdtg);
+
 						}
 						if (value_up == value_case - 1 && value_dw == value_case + 1) {
 							// corp bas Ã  haut
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdth);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdth);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, cdth);
+
 						}
 						if (value_dw == value_case - 1 && value_up == value_case + 1) {
 							// corp haut Ã  bas
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdtb);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cdtb);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, cdtb);
 						}
 						if (value_lft == value_case + 1 && value_up == value_case - 1
 								|| value_lft == value_case - 1 && value_up == value_case + 1) {
 							// coude gauche-haut
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cgh);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cgh);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, cgh);
 						}
 						if (value_up == value_case + 1 && value_rgt == value_case - 1
 								|| value_up == value_case - 1 && value_rgt == value_case + 1) {
 							// coude haut-droite
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, chd);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, chd);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, chd);
 						}
 						if (value_lft == value_case + 1 && value_dw == value_case - 1
 								|| value_lft == value_case - 1 && value_dw == value_case + 1) {
 							// coude gauche-bas
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cgb);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cgb);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, cgb);
 						}
 						if (value_rgt == value_case + 1 && value_dw == value_case - 1
 								|| value_rgt == value_case - 1 && value_dw == value_case + 1) {
 							// coude droite-bas
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cbd);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, coude);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, cbd);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, cbd);
 						}
-						if (value_case == length&&value_lft==length-1) {
+						if (value_case == length && value_lft == length - 1) {
 							// queue corp gauche
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qcg);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qcg);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, qcg);
 						}
-						if (value_case == length&&value_rgt==length-1) {
+						if (value_case == length && value_rgt == length - 1) {
 							// queue corp droite
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qcd);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qcd);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, qcd);
 						}
-						if (value_case == length&&value_up==length-1) {
+						if (value_case == length && value_up == length - 1) {
 							// queue corp haut
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qch);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qch);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, qch);
 						}
-						if (value_case == length&&value_dw==length-1) {
+						if (value_case == length && value_dw == length - 1) {
 							// queue corp bas
-//							display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
-							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qcb);
+							if (aff == 1)
+								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
+							if (aff == 2)
+								display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, qcb);
+							if (aff == 3)
+								display.drawTransformedPicture(i *13+7, j *13+7, 0.0, 0.2, qcb);
 						}
 
 						break;
@@ -439,12 +530,13 @@ public class Snake {
 			nbApple--;
 			score++;
 			try {
-				AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File ("1190.wav")); 
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("1190.wav"));
 				Clip clip = AudioSystem.getClip();
 				clip.open(audioIn);
 				clip.start();
-			}catch (Exception ex) {
-				ex.printStackTrace();;
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				;
 			}
 		} else if (position[headX][headY] == 0) {
 			position[headX][headY] = 1;
@@ -506,16 +598,17 @@ public class Snake {
 	public void gameover() {
 		play = false;
 		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File ("7796.wav")); 
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("1234.wav"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioIn);
 			clip.start();
-		}catch (Exception ex) {
-			ex.printStackTrace();;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			;
 		}
 		display.clear(Color.WHITE);
 		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED, 40);
-		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2+90, "Your score is : " + score, Color.BLUE, 40);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 90, "Your score is : " + score, Color.BLUE, 40);
 
 	}
 
@@ -527,9 +620,9 @@ public class Snake {
 
 			move(dirSnake);
 			if (nbApple == 0) {
-				
+
 				apple();
-				
+
 			}
 			updateGraphicsViewGame();
 		}
