@@ -7,8 +7,14 @@ import java.awt.event.KeyEvent;
 
 public class Play {
 	public static void main(String[] args) {
-		Snake snake = new Snake(6, Snake.Direction.RIGHT);
+		Snake snake = new Snake();
 		snake.play();
+		
+		while(snake.replay()){
+			snake = new Snake();
+			snake.play();
+			
+		}
 			
 		}
 	}
