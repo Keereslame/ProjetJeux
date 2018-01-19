@@ -116,20 +116,19 @@ public class Snake {
 		display.drawString(GRAPHICS_WIDTH / 3 + 50, GRAPHICS_HEIGHT / 2 + 150, "Please select one Level : ",
 				Color.BLACK, 20);
 		level = Dialogs.getInt("Your choice:") - '0';
-		
+
 		display.clear();
 		display.drawFancyString(GRAPHICS_WIDTH / 5, GRAPHICS_HEIGHT / 4, "SNAKE by Philippine & Mathieu", Color.BLACK,
 				30);
 		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2, "1) Affichage couleurs", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 50, "2) Affichage rétro grand", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 100, "3) Affichage rétro petit", Color.BLACK, 20);
+		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 50, "2) Affichage rétro grand", Color.BLACK,
+				20);
+		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 100, "3) Affichage rétro petit",
+				Color.BLACK, 20);
 		display.drawString(GRAPHICS_WIDTH / 3 + 50, GRAPHICS_HEIGHT / 2 + 150, "Please select one Level : ",
 				Color.BLACK, 20);
 		aff = Dialogs.getInt("Your choice:") - '0';
-		
-		
-		
-		
+
 		length = 6;
 		score = 0;
 		nbApple = 0;
@@ -140,7 +139,6 @@ public class Snake {
 		// si aff 1 fenetre 320x320 pixels
 		// si aff 2 fenetre 832x832 pixels
 		// si aff 3 fenetre 416x416 pixels
-		
 
 		switch (level) {
 		case 1:
@@ -172,26 +170,25 @@ public class Snake {
 			}
 
 		}
-		switch (aff){
+		switch (aff) {
 		// affichage 1=cases couleurs, 2=original snake grand
-				// format, 3=original snake
-				// si aff 1 fenetre 320x320 pixels
-				// si aff 2 fenetre 832x832 pixels
-				// si aff 3 fenetre 416x416 pixels
+		// format, 3=original snake
+		// si aff 1 fenetre 320x320 pixels
+		// si aff 2 fenetre 832x832 pixels
+		// si aff 3 fenetre 416x416 pixels
 		case 1:
-			GRAPHICS_WIDTH=320;
-			GRAPHICS_HEIGHT=320;
+			GRAPHICS_WIDTH = 320;
+			GRAPHICS_HEIGHT = 320;
 			break;
 		case 2:
-			GRAPHICS_WIDTH=832;
-			GRAPHICS_HEIGHT=832;
+			GRAPHICS_WIDTH = 832;
+			GRAPHICS_HEIGHT = 832;
 			break;
 		case 3:
-			GRAPHICS_WIDTH=416;
-			GRAPHICS_HEIGHT=416;
+			GRAPHICS_WIDTH = 416;
+			GRAPHICS_HEIGHT = 416;
 			break;
-			
-			
+
 		}
 		begin = System.currentTimeMillis();
 	}
@@ -211,7 +208,7 @@ public class Snake {
 					int value_rgt = 0;
 					int value_lft = 0;
 					int value_case = position[i][j];
-					
+
 					if (i == 0 && j == 0) {
 						value_up = position[i][31];
 						value_dw = position[i][j + 1];
@@ -273,7 +270,7 @@ public class Snake {
 					case -1:
 						// pomme
 						if (aff == 1)
-							display.drawTransformedPicture(i * 10 +5, j * 10, 0.0, 0.25, apple);
+							display.drawTransformedPicture(i * 10 + 5, j * 10, 0.0, 0.25, apple);
 						if (aff == 2)
 							display.drawTransformedPicture(i * 26 + 13, j * 26 + 13, 0.0, 0.4, p);
 						if (aff == 3)
@@ -376,7 +373,7 @@ public class Snake {
 							if (aff == 3)
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, cdtd);
 						}
-						if ((value_lft == value_case + 1 || value_lft == -2 )&& value_rgt == value_case - 1) {
+						if ((value_lft == value_case + 1 || value_lft == -2) && value_rgt == value_case - 1) {
 							// corp droite à gauche
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
@@ -386,7 +383,7 @@ public class Snake {
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, cdtg);
 
 						}
-						if ((value_up == value_case - 1 || (value_up == -2 )&& value_dw == value_case + 1)) {
+						if ((value_up == value_case - 1 || (value_up == -2) && value_dw == value_case + 1)) {
 							// corp bas à haut
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
@@ -396,7 +393,7 @@ public class Snake {
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, cdth);
 
 						}
-						if ((value_dw == value_case - 1 || (value_dw == -2 )&& value_up == value_case + 1)) {
+						if ((value_dw == value_case - 1 || (value_dw == -2) && value_up == value_case + 1)) {
 							// corp haut à bas
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, body);
@@ -445,7 +442,8 @@ public class Snake {
 							if (aff == 3)
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, cbd);
 						}
-						if (value_case == length && (value_lft == length - 1 || (value_rgt == 0 && value_lft > 1))) {
+						if (value_case == length && value_lft == length - 1
+								|| value_case == length && value_lft == length - 1 && value_rgt == 0 && value_lft > 1) {
 							// queue corp gauche
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
@@ -454,7 +452,8 @@ public class Snake {
 							if (aff == 3)
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, qcg);
 						}
-						if (value_case == length && (value_rgt == length - 1 || (value_lft == 0 && value_rgt > 1))) {
+						if (value_case == length && value_rgt == length - 1
+								|| value_case == length && value_lft == length - 1 && value_lft == 0 && value_rgt > 1) {
 							// queue corp droite
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
@@ -463,7 +462,8 @@ public class Snake {
 							if (aff == 3)
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, qcd);
 						}
-						if (value_case == length && (value_up == length - 1 || (value_dw == 0 && value_up > 1))) {
+						if (value_case == length && value_up == length - 1
+								|| value_case == length && value_lft == length - 1 && value_dw == 0 && value_up > 1) {
 							// queue corp haut
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
@@ -472,7 +472,8 @@ public class Snake {
 							if (aff == 3)
 								display.drawTransformedPicture(i * 13 + 7, j * 13 + 7, 0.0, 0.2, qch);
 						}
-						if (value_case == length && (value_dw == length - 1 || (value_up == 0 && value_dw > 1))) {
+						if (value_case == length && value_dw == length - 1
+								|| value_case == length && value_lft == length - 1 && value_up == 0 && value_dw > 1) {
 							// queue corp bas
 							if (aff == 1)
 								display.drawTransformedPicture(i * 10 + 5, j * 10 + 5, 0.0, 0.25, queue);
