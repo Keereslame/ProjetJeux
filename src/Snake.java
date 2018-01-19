@@ -514,8 +514,8 @@ public class Snake {
 			ex.printStackTrace();;
 		}
 		display.clear(Color.WHITE);
-		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED, 10);
-		display.drawString(100, 200, "Your score is : " + score, Color.BLUE, 10);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED, 40);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2+90, "Your score is : " + score, Color.BLUE, 40);
 
 	}
 
