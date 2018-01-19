@@ -62,7 +62,9 @@ public class Snake {
 	GraphicsBitmap mur = new GraphicsBitmap("/Pictures/pixel/mur.png");
 
 	int nbApple = 0;
-	int score = 0;
+	int score1 = 0;
+	int score2 = 0;
+	int score3 = 0;
 	long begin;
 	long end;
 
@@ -84,9 +86,14 @@ public class Snake {
 
 	// Constructeur
 	public Snake() {
-
+		initialisationSnake(6);
+		
+	}
+	
+	//Cr�ation d'un snake de longueur 6
+	public void initialisationSnake(int size){
 		this.position[posx][posy] = 1;
-		for (int i = 2; i <= length; i++) {
+		for (int i = 2; i <= size; i++) {
 
 			if (dirSnake == Direction.LEFT) {
 				position[posx + (i - 1)][posy] = i;
@@ -121,77 +128,19 @@ public class Snake {
 		display.drawFancyString(GRAPHICS_WIDTH / 5, GRAPHICS_HEIGHT / 4, "SNAKE by Philippine & Mathieu", Color.BLACK,
 				30);
 		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2, "1) Affichage couleurs", Color.BLACK, 20);
-		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 50, "2) Affichage rétro grand", Color.BLACK,
+		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 50, "2) Affichage retro grand", Color.BLACK,
 				20);
-		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 100, "3) Affichage rétro petit",
+		display.drawString(GRAPHICS_WIDTH / 3 + 100, GRAPHICS_HEIGHT / 2 + 100, "3) Affichage retro petit",
 				Color.BLACK, 20);
 		display.drawString(GRAPHICS_WIDTH / 3 + 50, GRAPHICS_HEIGHT / 2 + 150, "Please select one Level : ",
 				Color.BLACK, 20);
 		aff = Dialogs.getInt("Your choice:") - '0';
-
-		length = 6;
-		score = 0;
-		nbApple = 0;
-		fps = 10;
+		
+		fps=10;
 		apple();
-		// affichage 1=cases couleurs, 2=original snake grand
-		// format, 3=original snake
-		// si aff 1 fenetre 320x320 pixels
-		// si aff 2 fenetre 832x832 pixels
-		// si aff 3 fenetre 416x416 pixels
-
-		switch (level) {
-		case 1:
-			// simple map sans obstacle, vitesse augmente chaque 3 pommes
-			break;
-		case 2:
-			// map avec mur sur le pourtour, vitesse constante
-			for (int i = 0; i < position.length; i++) {
-				for (int j = 0; j < position[i].length; j++) {
-					if (i == 0 || j == 0 || i == position.length - 1 || j == position[i].length - 1) {
-						position[i][j] = -2;
-					}
-				}
-			}
-			break;
-		case 3:
-			// map avec plusieurs murs,aussi sur le milieu, vitesse constante
-			for (int i = 0; i < position.length; i++) {
-				for (int j = 0; j < position[i].length; j++) {
-					if ((i == 0 || i == position.length - 1) && position[i][j] == 0) {
-						position[i][j] = -2;
-					} else if ((j == 7 && i <= 16) || (j == 24 && i > 16) && (position[i][j] == 0)) {
-						position[i][j] = -2;
-					} else if ((i == 8 && j < 16 && j > 7) || (i == 23 && j < 25 && j > 14) && (position[i][j] == 0)) {
-						position[i][j] = -2;
-					}
-				}
-
-			}
-
-		}
-		switch (aff) {
-		// affichage 1=cases couleurs, 2=original snake grand
-		// format, 3=original snake
-		// si aff 1 fenetre 320x320 pixels
-		// si aff 2 fenetre 832x832 pixels
-		// si aff 3 fenetre 416x416 pixels
-		case 1:
-			GRAPHICS_WIDTH = 320;
-			GRAPHICS_HEIGHT = 320;
-			break;
-		case 2:
-			GRAPHICS_WIDTH = 832;
-			GRAPHICS_HEIGHT = 832;
-			break;
-		case 3:
-			GRAPHICS_WIDTH = 416;
-			GRAPHICS_HEIGHT = 416;
-			break;
-
-		}
 		begin = System.currentTimeMillis();
 	}
+
 
 	// methode d'affichage
 	public void updateGraphicsViewGame() {
@@ -199,7 +148,59 @@ public class Snake {
 		synchronized (display.frontBuffer) {
 			display.clear();
 			long time = (end - begin) / 1000;
+			
+			switch (level) {
+			case 1:
+				// simple map sans obstacle, vitesse augmente chaque 3 pommes
+				break;
+			case 2:
+				// map avec mur sur le pourtour, vitesse constante
+				for (int i = 0; i < position.length; i++) {
+					for (int j = 0; j < position[i].length; j++) {
+						if (i == 0 || j == 0 || i == position.length - 1 || j == position[i].length - 1) {
+							position[i][j] = -2;
+						}
+					}
+				}
+				break;
+			case 3:
+				// map avec plusieurs murs,aussi sur le milieu, vitesse constante
+				for (int i = 0; i < position.length; i++) {
+					for (int j = 0; j < position[i].length; j++) {
+						if ((i == 0 || i == position.length - 1) && position[i][j] == 0) {
+							position[i][j] = -2;
+						} else if ((j == 7 && i <= 16) || (j == 24 && i > 16) && (position[i][j] == 0)) {
+							position[i][j] = -2;
+						} else if ((i == 8 && j < 16 && j > 7) || (i == 23 && j < 25 && j > 14) && (position[i][j] == 0)) {
+							position[i][j] = -2;
+						}
+					}
 
+				}
+
+			}
+			switch (aff) {
+			// affichage 1=cases couleurs, 2=original snake grand
+			// format, 3=original snake
+			// si aff 1 fenetre 320x320 pixels
+			// si aff 2 fenetre 832x832 pixels
+			// si aff 3 fenetre 416x416 pixels
+			case 1:
+				GRAPHICS_WIDTH = 320;
+				GRAPHICS_HEIGHT = 320;
+				break;
+			case 2:
+				GRAPHICS_WIDTH = 832;
+				GRAPHICS_HEIGHT = 832;
+				break;
+			case 3:
+				GRAPHICS_WIDTH = 416;
+				GRAPHICS_HEIGHT = 416;
+				break;
+
+			}
+			
+		
 			for (int i = 0; i < position.length; i++) {
 				for (int j = 0; j < position.length; j++) {
 					// les valeurs des cases voisines
@@ -487,8 +488,17 @@ public class Snake {
 					}
 
 				}
-
-				display.drawString(GRAPHICS_WIDTH / 2 - 20, 60, "Score: " + score, Color.BLACK, 25);
+				switch(level){
+				case 1:
+					display.drawString(GRAPHICS_WIDTH / 2 - 20, 60, "Score: " + score1 , Color.BLACK, 25);
+					break;
+				case 2:
+					display.drawString(GRAPHICS_WIDTH / 2 - 20, 60, "Score: " + score2 , Color.BLACK, 25);
+					break;
+				case 3:
+					display.drawString(GRAPHICS_WIDTH / 2 - 20, 60, "Score: " + score3, Color.BLACK, 25);
+					break;
+				}
 				display.drawString(30, GRAPHICS_HEIGHT - 40, "Timer: " + time + " sec", Color.BLACK, 25);
 				display.drawString(GRAPHICS_WIDTH - 120, GRAPHICS_HEIGHT - 40, "FPS: " + fps, Color.BLACK, 25);
 			}
@@ -574,7 +584,13 @@ public class Snake {
 			position[headX][headY] = 1;
 			position[queuX][queuY] = length;
 			nbApple--;
-			score++;
+			if(level == 1){
+				score1++;
+			}else if(level == 2){
+				score2++;
+			}else if(level == 3){
+				score3++;
+			}
 			try {
 				AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("1190.wav"));
 				Clip clip = AudioSystem.getClip();
@@ -603,9 +619,15 @@ public class Snake {
 			nbApple++;
 		}
 
-		if (score % 3 == 0 && level == 1 && score != 0) {
+		if (score1 % 3 == 0 && level == 1 && score1 != 0) {
 			fps += 2;
 		}
+		
+		if(score2 % 5 == 0 && level == 2 && score2 != 0){
+			fps += 3;
+		}
+		
+		
 
 	}
 
@@ -623,7 +645,7 @@ public class Snake {
 		}
 		display.clear(Color.WHITE);
 		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 3, "Sorry, you lose!", Color.RED, 40);
-		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 90, "Your score is : " + score, Color.BLUE, 40);
+		display.drawString(GRAPHICS_WIDTH / 3, GRAPHICS_HEIGHT / 2 + 90, "Your score is : " + (score1+score2+score3), Color.BLUE, 40);
 
 	}
 
@@ -645,20 +667,86 @@ public class Snake {
 	public void restart() {
 
 	}
+	
+	public void level1(){
+		end = System.currentTimeMillis();
 
+		move(dirSnake);
+		if (nbApple == 0) {
+
+			apple();
+
+		}
+		updateGraphicsViewGame();
+	}
+	
+	public void level2(){
+		end = System.currentTimeMillis();
+
+		move(dirSnake);
+		if (nbApple == 0) {
+
+			apple();
+
+		}
+		updateGraphicsViewGame();
+	}
+	
+	public void level3(){
+		end = System.currentTimeMillis();
+
+		move(dirSnake);
+		if (nbApple == 0) {
+
+			apple();
+
+		}
+		updateGraphicsViewGame();
+	}
+
+	public void changeLevel(){
+		if(score1 == 30 && level == 1){
+			
+			for(int i = 0; i<position.length; i++){
+				for(int j = 0; j<position[i].length; j++){
+					position[i][j] = 0;
+				}
+			}
+			nbApple = 0;
+			fps = 10;
+			length = 6;
+			initialisationSnake(6);
+			level++;
+		}else if(score2 == 40 && level ==2){
+			for(int i = 0; i<position.length; i++){
+				for(int j = 0; j<position[i].length; j++){
+					position[i][j] = 0;
+				}
+			}
+			nbApple = 0;
+			fps = 10;
+			length = 6;
+			initialisationSnake(6);
+			level++;
+		}
+	}
 	public void play() {
 		updateGraphicsViewMenu();
 		direction();
 		while (play) {
-			end = System.currentTimeMillis();
+			changeLevel();
 
-			move(dirSnake);
-			if (nbApple == 0) {
-
-				apple();
-
+			switch(level){
+			case 1:
+				level1();
+				break;
+			case 2:
+				level2();
+				break;
+			case 3:
+				level3();
+				break;
 			}
-			updateGraphicsViewGame();
 
 		}
 		gameover();
